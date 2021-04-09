@@ -3,6 +3,10 @@ const express = require('express');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
 const connectDB = require('./config/db.config');
+const {
+  routeNotFound,
+  errorHandler,
+} = require('./middlewares/error.middleware');
 
 // Load environment variables
 dotenv.config();
@@ -20,6 +24,10 @@ app.use(express.json());
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
+
+// Error middlewares
+app.use(routeNotFound);
+app.use(errorHandler);
 
 // Start listening to requests
 const PORT = process.env.PORT || 5000;
