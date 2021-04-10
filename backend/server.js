@@ -25,6 +25,9 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
+// Mount routers
+app.use('/api/users', require('./routes/user.routes'));
+
 // Error middlewares
 app.use(routeNotFound);
 app.use(errorHandler);

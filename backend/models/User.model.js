@@ -17,10 +17,11 @@ const userSchema = new mongoose.Schema(
         'Please enter a valid email address',
       ],
     },
-    password: String,
+    password: {
+      type: String,
+    },
     phoneNumber: {
       type: String,
-      required: [true, 'Please enter your phone number'],
       match: [/^[6-9]\d{9}$/, 'Please enter a valid Indian phone number'],
     },
     profilePic: {
@@ -32,6 +33,7 @@ const userSchema = new mongoose.Schema(
       required: true,
       default: false,
     },
+    verificationToken: String,
     isChef: {
       type: Boolean,
       required: true,
