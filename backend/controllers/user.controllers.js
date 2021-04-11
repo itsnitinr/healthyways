@@ -190,3 +190,34 @@ exports.onboarding = asyncHandler(async (req, res) => {
   user = await user.save();
   res.json({ user, token: generateJWT(user._id) });
 });
+
+exports.updatePassword = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user.id);
+  const { currentPassword, newPassword } = req.body;
+
+  if (!currentPassword || !newPassword) {
+    res.status(400);
+    throw new Error('Please recheck your inputs');
+  }
+
+  if (await user.matchPassword(currentPassword)) {
+    user.password = newPassword;
+  } else {
+    res.status(401);
+    throw new Error('You have entered the wrong current password');
+  }
+
+  await user.save();
+
+  res.json({ user, token: generateJWT(user._id) });
+});
+
+exports.getUserProfile = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user.id).select('-password');
+  res.json({ user, token: generateJWT(user._id) });
+});
+
+exports.deleteUserProfile = asyncHandler(async (req, res) => {
+  await User.findByIdAndDelete(req.user.id);
+  res.json({ message: 'Account deleted' });
+});

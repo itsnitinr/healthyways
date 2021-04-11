@@ -7,6 +7,9 @@ const {
   forgotPassword,
   resetPassword,
   onboarding,
+  getUserProfile,
+  deleteUserProfile,
+  updatePassword,
 } = require('../controllers/user.controllers');
 
 const { auth } = require('../middlewares/auth.middleware');
@@ -17,6 +20,7 @@ router.post('/login', loginUser);
 router.put('/verify/:verificationToken', verifyEmail);
 router.put('/forgot-password', forgotPassword);
 router.put('/reset-password/:resetToken', resetPassword);
+router.put('/update-password', auth, updatePassword);
 router.post(
   '/onboarding',
   auth,
@@ -26,5 +30,6 @@ router.post(
   ]),
   onboarding
 );
+router.route('/').get(auth, getUserProfile).delete(auth, deleteUserProfile);
 
 module.exports = router;
