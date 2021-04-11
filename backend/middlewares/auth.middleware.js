@@ -61,4 +61,4 @@ const adminOnly = (req, res, next) => {
   }
 };
 
-module.exports = { auth, admin };
+module.exports = { auth, adminOnly, userOnly, chefOnly };
