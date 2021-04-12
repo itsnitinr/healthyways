@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { enqueueSnackbar } from '../alert/alert.actions';
 
 import {
   REGISTER_REQUEST,
@@ -9,7 +10,7 @@ import {
   LOGIN_FAIL,
 } from './user.types';
 
-export const registerUser = (formData) => async (dispatch) => {
+export const registerUser = (formData, history) => async (dispatch) => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -18,8 +19,19 @@ export const registerUser = (formData) => async (dispatch) => {
 
   try {
     dispatch({ type: REGISTER_REQUEST });
+
     const { data } = await axios.post('/api/users/register', formData, config);
+
     dispatch({ type: REGISTER_SUCCESS, payload: data });
+
+    dispatch(
+      enqueueSnackbar({
+        message: 'Please check your inbox for verification',
+        options: { variant: 'info' },
+      })
+    );
+
+    history.push('/home');
   } catch (error) {
     const errorMsg =
       error.response && error.response.data.message
@@ -30,6 +42,13 @@ export const registerUser = (formData) => async (dispatch) => {
       type: REGISTER_FAIL,
       payload: errorMsg,
     });
+
+    dispatch(
+      enqueueSnackbar({
+        message: errorMsg,
+        options: { variant: 'error' },
+      })
+    );
   }
 };
 
@@ -42,8 +61,11 @@ export const loginUser = (formData) => async (dispatch) => {
 
   try {
     dispatch({ type: LOGIN_REQUEST });
+
     const { data } = await axios.post('/api/users/login', formData, config);
+
     dispatch({ type: LOGIN_SUCCESS, payload: data });
+
     localStorage.setItem('user', JSON.stringify(data.user));
     localStorage.setItem('token', data.token);
   } catch (error) {
@@ -56,5 +78,12 @@ export const loginUser = (formData) => async (dispatch) => {
       type: LOGIN_FAIL,
       payload: errorMsg,
     });
+
+    dispatch(
+      enqueueSnackbar({
+        message: errorMsg,
+        options: { variant: 'error' },
+      })
+    );
   }
 };

@@ -59,7 +59,9 @@ export default function SignUp({ history }) {
     if (password !== confirmPassword) {
       return alert('Passwords do not match');
     }
-    dispatch(registerUser({ name, email, password, isChef: role === 'chef' }));
+    dispatch(
+      registerUser({ name, email, password, isChef: role === 'chef' }, history)
+    );
   };
 
   useEffect(() => {
