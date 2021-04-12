@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -8,10 +8,11 @@ import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import useStyles from './SignIn.styles';
 import { AiOutlineUser } from 'react-icons/ai';
 import Avatar from '@material-ui/core/Avatar';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import { loginUser } from '../../redux/user/user.actions';
+import useStyles from './SignIn.styles';
 
 function Copyright() {
   return (
@@ -26,34 +27,38 @@ function Copyright() {
   );
 }
 
-export default function SignIn() {
+export default function SignIn({ history }) {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
+
   const { email, password } = formData;
+
+  const { loading, user } = useSelector((state) => state.userLogin);
 
   const dispatch = useDispatch();
 
-  
-  useEffect(() => {
-    
-  }, []);
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const role = 'user';
   const onSubmit = (e) => {
     e.preventDefault();
-   
+    dispatch(loginUser(formData));
   };
+
+  useEffect(() => {
+    if (user) {
+      history.push('/home');
+    }
+  }, [history, user]);
 
   const classes = useStyles();
 
   return (
     <div>
-      
+      {loading && <LinearProgress />}
       <Grid container component="main" className={classes.root}>
         <CssBaseline />
         <Grid item xs={false} sm={4} md={7} className={classes.image} />
@@ -65,13 +70,13 @@ export default function SignIn() {
             <Typography component="h1" variant="h5">
               Sign In
             </Typography>
-            <form className={classes.form} noValidate onSubmit={onSubmit}>
+            <form className={classes.form} onSubmit={onSubmit}>
               <TextField
                 variant="outlined"
+                type="email"
                 margin="normal"
                 required
                 fullWidth
-                id="email"
                 label="Email Address"
                 name="email"
                 autoComplete="email"
