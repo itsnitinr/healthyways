@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
@@ -19,14 +19,15 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import { AiOutlineUser } from 'react-icons/ai';
 import Avatar from '@material-ui/core/Avatar';
 import { registerUser } from '../../redux/user/user.actions';
+import { enqueueSnackbar } from '../../redux/alert/alert.actions';
 import useStyles from './SignUp.styles';
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+      <Link color="inherit" href="http://localhost:3000/">
+        HealthyWays
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -57,7 +58,12 @@ export default function SignUp({ history }) {
   const onSubmit = (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
-      return alert('Passwords do not match');
+      return dispatch(
+        enqueueSnackbar({
+          message: 'Passwords do not match',
+          options: { variant: 'error' },
+        })
+      );
     }
     dispatch(
       registerUser({ name, email, password, isChef: role === 'chef' }, history)
@@ -171,14 +177,10 @@ export default function SignUp({ history }) {
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
+                  <Link to="/forgot">Forgot password?</Link>
                 </Grid>
                 <Grid item>
-                  <Link href="/signin/user" variant="body2">
-                    {'Already have an account? Sign In'}
-                  </Link>
+                  <Link to="/signin">Already have an account? Sign In</Link>
                 </Grid>
               </Grid>
               <Box mt={5}>

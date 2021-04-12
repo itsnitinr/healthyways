@@ -8,6 +8,8 @@ import SignUp from './pages/signup/SignUp.component';
 import HomePage from './pages/home-page/HomePage.component';
 import LandingPage from './pages/landing-page/LandingPage.component';
 import VerifyEmail from './pages/verifiy-email/VerifyEmail.component';
+import ForgotPassword from './pages/forgot-password/ForgotPassword.component';
+import ResetPassword from './pages/reset-password/ResetPassword.component';
 import theme from './theme';
 import store from './redux/store';
 import { closeSnackbar } from './redux/alert/alert.actions';
@@ -37,6 +39,11 @@ function App() {
               <Route
                 path="/verify/:verificationToken"
                 component={VerifyEmail}
+              />
+              <Route path="/forgot" component={ForgotPassword} />
+              <Route
+                path="/reset-password/:resetToken"
+                component={ResetPassword}
               />
             </Switch>
           </BrowserRouter>
