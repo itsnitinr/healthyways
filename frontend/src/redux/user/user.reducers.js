@@ -6,6 +6,9 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
+  VERIFY_REQUEST,
+  VERIFY_SUCCESS,
+  VERIFY_FAIL,
 } from './user.types';
 
 export const userRegisterReducer = (state = {}, action) => {
@@ -35,6 +38,19 @@ export const userLoginReducer = (state = {}, action) => {
       return { loading: false, error: payload };
     case LOGOUT:
       return {};
+    default:
+      return state;
+  }
+};
+
+export const userVerifyReducer = (state = { loading: true }, action) => {
+  switch (action.type) {
+    case VERIFY_REQUEST:
+      return { loading: true };
+    case VERIFY_SUCCESS:
+      return { loading: false, success: true };
+    case VERIFY_FAIL:
+      return { loading: false, error: action.payload };
     default:
       return state;
   }
