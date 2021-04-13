@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import useStyles from './HomePage.styles';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-// import FoodCard from '../../components/foodcard/Foodcard.component';
+import Container from '@material-ui/core/Container';
+import FoodCard from '../../components/foodcard/FoodCard.component';
 
 const HomePage = () => {
   const classes = useStyles();
@@ -31,22 +31,22 @@ const HomePage = () => {
         </div>
         <p className={classes.advancedSearch}>Advanced Search</p>
       </div>
-      <div>
-        {/* <Grid container justify="center" spacing={1}>
-          <Grid item sm={3} xs={12}>
-            <FoodCard />
+      <Container>
+        <Grid container spacing={5} className={classes.grid} justify="space-between">
+          <Grid item md={3} sm={4}  xs={12}>
+            <FoodCard/>
           </Grid>
-          <Grid item sm={3} xs={12}>
-            <FoodCard />
+          <Grid item sm={4} md={3} xs={12}>
+            <FoodCard/>
           </Grid>
-          <Grid item sm={3} xs={12}>
-            <FoodCard />
+          <Grid item sm={4} md={3} xs={12}>
+            <FoodCard/>
           </Grid>
-          <Grid item sm={3} xs={12}>
-            <FoodCard />
+          <Grid item sm={4} md={3} xs={12}>
+            <FoodCard/>
           </Grid>
-        </Grid> */}
-      </div>
+        </Grid>
+      </Container>
     </>
   );
 };

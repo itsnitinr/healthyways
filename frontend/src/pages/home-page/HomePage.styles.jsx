@@ -11,6 +11,7 @@ export default makeStyles((theme) => ({
     height: '100vh',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
+  
   },
   heroHeader: {
     color: 'white',
@@ -18,6 +19,11 @@ export default makeStyles((theme) => ({
     textAlign: 'center',
     fontWeight: '600',
     marginBottom: '3rem',
+    [theme.breakpoints.down('sm')]:{
+      fontWeight: '400',
+      fontSize:'40px',
+      padding:"0 1rem"
+    }
   },
   highlightColor: {
     color: '#38ef7d',
@@ -60,4 +66,9 @@ export default makeStyles((theme) => ({
     justifyContent: 'space-evenly',
     margin: '3rem 0',
   },
+  grid:{
+    marginTop:"4rem",
+    marginBottom:"3rem"
+  }
+
 }));

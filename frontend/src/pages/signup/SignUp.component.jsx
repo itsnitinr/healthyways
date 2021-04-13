@@ -31,7 +31,6 @@ export default function SignUp() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    phoneNumber: '',
     password: '',
     confirmPassword: '',
   });
@@ -40,7 +39,7 @@ export default function SignUp() {
    
   }, []);
 
-  const { name, email, phoneNumber, password, confirmPassword } = formData;
+  const { name, email, password, confirmPassword } = formData;
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -98,21 +97,7 @@ export default function SignUp() {
                 value={email}
                 onChange={handleChange}
               />
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="phoneNumber"
-                label="Phone Number"
-                name="phoneNumber"
-                autoComplete="phoneNumber"
-                autoFocus
-                value={phoneNumber}
-                onChange={handleChange}
-                type="tel"
-                pattern="^[6-9]\d{9}$"
-              />
+             
               <TextField
                 variant="outlined"
                 margin="normal"
