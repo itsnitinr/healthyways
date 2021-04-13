@@ -9,6 +9,9 @@ import {
   VERIFY_REQUEST,
   VERIFY_SUCCESS,
   VERIFY_FAIL,
+  ONBOARDING_FAIL,
+  ONBOARDING_REQUEST,
+  ONBOARDING_SUCCESS
 } from './user.types';
 
 export const userRegisterReducer = (state = {}, action) => {
@@ -55,3 +58,16 @@ export const userVerifyReducer = (state = { loading: true }, action) => {
       return state;
   }
 };
+
+export const userOnboardingReducer = (state = {loading:false}, action)=>{
+  switch(action.type){
+    case ONBOARDING_REQUEST:
+      return {loading:true}
+    case ONBOARDING_SUCCESS:
+      return {loading: false}
+    case ONBOARDING_FAIL:
+      return {loading:false, error: action.payload}
+    default:
+      return state
+  }
+}

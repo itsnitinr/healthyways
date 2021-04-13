@@ -17,6 +17,9 @@ import {
   RESET_PASSWORD_REQUEST,
   RESET_PASSWORD_SUCCESS,
   RESET_PASSWORD_FAIL,
+  ONBOARDING_REQUEST,
+  ONBOARDING_SUCCESS,
+  ONBOARDING_FAIL
 } from './user.types';
 
 export const registerUser = (formData, history) => async (dispatch) => {
@@ -219,3 +222,57 @@ export const resetPassword = (password, resetToken) => async (dispatch) => {
     );
   }
 };
+
+
+export const onBoarding = (formData)=>async(dispatch,getState)=>{
+
+  const {userLogin} = getState();
+  const config = {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      Authorization: `Bearer ${userLogin.token}`,
+    },
+  };
+
+  try {
+    
+    dispatch({type: ONBOARDING_REQUEST});
+    
+    const { data } = await axios.post(
+      `/api/users/onboarding`,
+      formData,
+      config
+    );
+    
+    dispatch({type:ONBOARDING_SUCCESS});
+
+    dispatch(
+      enqueueSnackbar({
+        message: 'Created profile successfully',
+        options: { variant: 'success' },
+      })
+    );
+
+    dispatch({ type: LOGIN_SUCCESS, payload: data });
+
+    localStorage.setItem('user', JSON.stringify(data.user));
+    localStorage.setItem('token', data.token);
+
+  } catch (error) {
+    const errorMsg =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+
+    dispatch({ type: ONBOARDING_FAIL, payload: errorMsg });
+
+    dispatch(
+      enqueueSnackbar({
+        message: errorMsg,
+        options: {
+          variant: 'error',
+        },
+      })
+    );
+  }
+}

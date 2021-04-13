@@ -1,6 +1,5 @@
 import React from 'react';
 import Card from "@material-ui/core/Card";
-import CardContent from '@material-ui/core/CardContent';
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
@@ -11,7 +10,7 @@ const FoodCard = () => {
     const classes = useStyles();
     return (
         <Card className={classes.card}>
-          <img src="https://drop.ndtv.com/albums/COOKS/pasta-vegetarian/pastaveg_640x480.jpg" className={classes.img} />
+          <img alt="food_img" src="https://drop.ndtv.com/albums/COOKS/pasta-vegetarian/pastaveg_640x480.jpg" className={classes.img} />
           <Button className={classes.button} variant="contained">Add</Button>
           
               <Box display="flex" mt={3} justifyContent="space-between">
