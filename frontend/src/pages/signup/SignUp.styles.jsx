@@ -32,6 +32,9 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  radio: {
+    marginTop: '1rem',
+  },
 }));
 
 export default useStyles;

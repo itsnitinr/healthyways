@@ -5,14 +5,13 @@ import rootReducer from './rootReducer';
 
 const middleware = [thunk];
 
-const userFromLocalStorage = JSON.parse(localStorage.getItem('user')) || {};
+const userFromLocalStorage = JSON.parse(localStorage.getItem('user')) || null;
 const tokenFromLocalStorage = localStorage.getItem('token') || '';
 
 const initialState = {
-  auth: {
+  userLogin: {
     user: userFromLocalStorage,
     token: tokenFromLocalStorage,
-    isAuthenticated: userFromLocalStorage._id ? true : false,
   },
 };
 

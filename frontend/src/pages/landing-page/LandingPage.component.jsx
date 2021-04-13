@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { Grid, Typography, Button, Container, Paper } from '@material-ui/core';
 import {
   Timeline,
@@ -40,9 +41,11 @@ const LandingPage = () => {
             provide you with nutritious and healthy meals that are fulfulling,
             tasty and light on your pocket.
           </Typography>
-          <Button variant="contained" className={classes.heroButton}>
-            Order Now
-          </Button>
+          <Link to="/home">
+            <Button variant="contained" className={classes.heroButton}>
+              Order Now
+            </Button>
+          </Link>
         </Grid>
         <Grid item md={6}>
           <img

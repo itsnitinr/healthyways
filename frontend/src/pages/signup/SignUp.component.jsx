@@ -1,24 +1,33 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import {
+  FormControl,
+  FormLabel,
+  RadioGroup,
+  Radio,
+  FormControlLabel,
+} from '@material-ui/core';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { AiOutlineUser } from 'react-icons/ai';
 import Avatar from '@material-ui/core/Avatar';
+import { registerUser } from '../../redux/user/user.actions';
+import { enqueueSnackbar } from '../../redux/alert/alert.actions';
 import useStyles from './SignUp.styles';
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+      <Link color="inherit" href="http://localhost:3000/">
+        HealthyWays
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -26,39 +35,52 @@ function Copyright() {
   );
 }
 
-export default function SignUp() {
-
+export default function SignUp({ history }) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
     confirmPassword: '',
+    role: '',
   });
 
-  useEffect(() => {
-   
-  }, []);
+  const { loading } = useSelector((state) => state.userRegister);
+  const { user } = useSelector((state) => state.userLogin);
 
-  const { name, email, password, confirmPassword } = formData;
+  const dispatch = useDispatch();
+
+  const { name, email, password, confirmPassword, role } = formData;
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const role = 'user';
   const onSubmit = (e) => {
-    console.log(formData);
     e.preventDefault();
     if (password !== confirmPassword) {
-      console.log('both should be equal');
+      return dispatch(
+        enqueueSnackbar({
+          message: 'Passwords do not match',
+          options: { variant: 'error' },
+        })
+      );
     }
-   
+    dispatch(
+      registerUser({ name, email, password, isChef: role === 'chef' }, history)
+    );
   };
+
+  useEffect(() => {
+    if (user) {
+      history.push('/home');
+    }
+  }, [user, history]);
 
   const classes = useStyles();
 
   return (
     <div>
+      {loading && <LinearProgress />}
       <Grid container component="main" className={classes.root}>
         <CssBaseline />
         <Grid item xs={false} sm={4} md={7} className={classes.image} />
@@ -70,13 +92,12 @@ export default function SignUp() {
             <Typography component="h1" variant="h5">
               Create your account here
             </Typography>
-            <form className={classes.form} noValidate onSubmit={onSubmit}>
+            <form className={classes.form} onSubmit={onSubmit}>
               <TextField
                 variant="outlined"
                 margin="normal"
                 required
                 fullWidth
-                id="name"
                 label="Name"
                 name="name"
                 autoComplete="name"
@@ -86,18 +107,16 @@ export default function SignUp() {
               />
               <TextField
                 variant="outlined"
+                type="email"
                 margin="normal"
                 required
                 fullWidth
-                id="email"
                 label="Email Address"
                 name="email"
                 autoComplete="email"
-                autoFocus
                 value={email}
                 onChange={handleChange}
               />
-             
               <TextField
                 variant="outlined"
                 margin="normal"
@@ -106,7 +125,6 @@ export default function SignUp() {
                 name="password"
                 label="Password"
                 type="password"
-                id="password"
                 value={password}
                 onChange={handleChange}
                 autoComplete="current-password"
@@ -119,12 +137,35 @@ export default function SignUp() {
                 name="confirmPassword"
                 label="Confirm Password"
                 type="password"
-                id="password"
                 value={confirmPassword}
                 onChange={handleChange}
                 autoComplete="current-password"
               />
-
+              <FormControl
+                required
+                className={classes.radio}
+                component="fieldset"
+              >
+                <FormLabel component="legend">Role</FormLabel>
+                <RadioGroup
+                  aria-label="role"
+                  name="role"
+                  value={role}
+                  onChange={handleChange}
+                  row
+                >
+                  <FormControlLabel
+                    value="user"
+                    control={<Radio color="primary" />}
+                    label="User"
+                  />
+                  <FormControlLabel
+                    value="chef"
+                    control={<Radio color="primary" />}
+                    label="Chef"
+                  />
+                </RadioGroup>
+              </FormControl>
               <Button
                 type="submit"
                 fullWidth
@@ -136,14 +177,10 @@ export default function SignUp() {
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
+                  <Link to="/forgot">Forgot password?</Link>
                 </Grid>
                 <Grid item>
-                  <Link href="/signin/user" variant="body2">
-                    {'Already have an account? Sign In'}
-                  </Link>
+                  <Link to="/signin">Already have an account? Sign In</Link>
                 </Grid>
               </Grid>
               <Box mt={5}>
