@@ -32,18 +32,23 @@ const HomePage = () => {
         <p className={classes.advancedSearch}>Advanced Search</p>
       </div>
       <Container>
-        <Grid container spacing={5} className={classes.grid} justify="space-between">
-          <Grid item md={3} sm={4}  xs={12}>
-            <FoodCard/>
+        <Grid
+          container
+          spacing={4}
+          className={classes.grid}
+          justify="space-between"
+        >
+          <Grid item md={3} sm={4} xs={12}>
+            <FoodCard />
           </Grid>
           <Grid item sm={4} md={3} xs={12}>
-            <FoodCard/>
+            <FoodCard />
           </Grid>
           <Grid item sm={4} md={3} xs={12}>
-            <FoodCard/>
+            <FoodCard />
           </Grid>
           <Grid item sm={4} md={3} xs={12}>
-            <FoodCard/>
+            <FoodCard />
           </Grid>
         </Grid>
       </Container>
