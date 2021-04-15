@@ -52,50 +52,13 @@ const userSchema = new mongoose.Schema(
     verificationDocument: String,
     resetPasswordToken: String,
     resetPasswordExpire: Date,
-    menu: {
-      monday: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'Food',
-        },
-      ],
-      tuesday: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'Food',
-        },
-      ],
-      wednesday: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'Food',
-        },
-      ],
-      thursday: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'Food',
-        },
-      ],
-      friday: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'Food',
-        },
-      ],
-      saturday: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'Food',
-        },
-      ],
-      sunday: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'Food',
-        },
-      ],
-    },
+    menu: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Food',
+        required: true,
+      },
+    ],
     pincode: String,
     location: {
       type: {
