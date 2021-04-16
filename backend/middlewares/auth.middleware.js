@@ -43,7 +43,7 @@ const userOnly = (req, res, next) => {
 
 // Restrict routes to only chef only
 const chefOnly = (req, res, next) => {
-  if (req.user && req.user.isChef) {
+  if (req.user && req.user.isChef && req.user.chefVerified) {
     next();
   } else {
     res.status(401);
@@ -60,5 +60,6 @@ const adminOnly = (req, res, next) => {
     throw new Error('You need admin rights to access this!');
   }
 };
+
 
 module.exports = { auth, adminOnly, userOnly, chefOnly };
