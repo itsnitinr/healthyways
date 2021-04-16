@@ -1,11 +1,10 @@
-const asyncHandler = require("express-async-handler");
-const Food = require("../models/Food.model");
-const User = require("../models/User.model");
+const asyncHandler = require('express-async-handler');
+const Food = require('../models/Food.model');
+const User = require('../models/User.model');
 
 // @route   GET /api/foods
 // @desc    Get food item
 // @access  Public
-
 exports.getFoodItems = asyncHandler(async (req, res) => {
   const foods = await Food.find({});
   res.status(200).json({ foods });
@@ -14,7 +13,6 @@ exports.getFoodItems = asyncHandler(async (req, res) => {
 // @route   POST /api/foods/
 // @desc    Post food item
 // @access  Private
-
 exports.addFoodItem = asyncHandler(async (req, res) => {
   const {
     foodName,
@@ -24,6 +22,8 @@ exports.addFoodItem = asyncHandler(async (req, res) => {
     description,
     availableOn,
   } = req.body;
+
+  const chef = await User.findById(req.user.id);
 
   const food = await Food.create({
     chef: req.user.id,
@@ -35,19 +35,24 @@ exports.addFoodItem = asyncHandler(async (req, res) => {
     availableOn: JSON.parse(availableOn),
     image: req.file.path,
   });
+
+  if (food) {
+    chef.menu.push(food);
+    await chef.save();
+  }
+
   res.status(201).json({ food });
 });
 
 // @route   PUT /api/foods/:id
 // @desc    Edit food item
 // @access  Private
-
 exports.updateFoodItem = asyncHandler(async (req, res) => {
   let food = await Food.findById(req.params.id);
 
   if (!food) {
     res.status(404);
-    throw new Error("This food item does not exist");
+    throw new Error('This food item does not exist');
   }
 
   if (food.chef.toString() !== req.user.id.toString()) {
@@ -71,13 +76,12 @@ exports.updateFoodItem = asyncHandler(async (req, res) => {
 // @route   DELETE /api/foods/:id
 // @desc    Delete food item
 // @access  Private
-
 exports.deleteFoodItem = asyncHandler(async (req, res) => {
   let food = await Food.findById(req.params.id);
 
   if (!food) {
     res.status(404);
-    throw new Error("This food item does not exist");
+    throw new Error('This food item does not exist');
   }
 
   if (food.chef.toString() !== req.user.id.toString()) {
@@ -86,5 +90,5 @@ exports.deleteFoodItem = asyncHandler(async (req, res) => {
   }
 
   food = await Food.findByIdAndDelete(req.params.id);
-  res.json({ message: "Deleted food item successfully" });
+  res.json({ message: 'Deleted food item successfully' });
 });
