@@ -1,4 +1,5 @@
 const asyncHandler = require('express-async-handler');
+const getDay = require('../utils/getDay.utils');
 const Food = require('../models/Food.model');
 const User = require('../models/User.model');
 
@@ -8,6 +9,70 @@ const User = require('../models/User.model');
 exports.getFoodItems = asyncHandler(async (req, res) => {
   const foods = await Food.find({});
   res.status(200).json({ foods });
+});
+
+// @route   GET /api/foods/radius
+// @desc    Get food item within a radius
+// @access  Public
+exports.getFoodItemsAdvanced = asyncHandler(async (req, res) => {
+  const { latitude, longitude } = req.body;
+  const radius = 10 / 6378;
+
+  // Filter chefs in 10km radius
+  const chefs = await User.find({
+    location: {
+      $geoWithin: { $centerSphere: [[longitude, latitude], radius] },
+    },
+    isChef: true,
+  });
+
+  // Pagination
+  const page = parseInt(req.query.page, 10) || 1;
+  const limit = parseInt(req.query.limit, 10) || 15;
+  const startIndex = (page - 1) * limit;
+  const endIndex = page * limit;
+  const total = await Food.countDocuments();
+
+  // Finds items available today
+  const dayOfWeek = new Date().getDay();
+  const today = getDay(dayOfWeek);
+
+  // Search by query
+  const query = req.query.search
+    ? {
+        foodName: {
+          $regex: req.query.search,
+          $options: 'i',
+        },
+        chef: { $in: chefs },
+        availableOn: today,
+      }
+    : {
+        chef: { $in: chefs },
+        availableOn: today,
+      };
+
+  const foods = await Food.find({ ...query })
+    .skip(startIndex)
+    .limit(limit);
+
+  const pagination = {};
+
+  if (endIndex < total) {
+    pagination.next = {
+      page: page + 1,
+      limit,
+    };
+  }
+
+  if (startIndex > 0) {
+    pagination.prev = {
+      page: page - 1,
+      limit,
+    };
+  }
+
+  res.json({ pagination, foods });
 });
 
 // @route   POST /api/foods/

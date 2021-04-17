@@ -168,6 +168,7 @@ exports.onboarding = asyncHandler(async (req, res) => {
 
   // Get location via pincode
   const { data } = await axios.get(`https://geocode.xyz/${pincode}?json=1`);
+  user.location.type = 'Point';
   user.location.coordinates = [data.longt, data.latt];
   user.location.formattedAddress = data.standard.addresst;
 
