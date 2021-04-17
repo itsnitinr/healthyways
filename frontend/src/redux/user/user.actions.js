@@ -8,6 +8,7 @@ import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
+  LOGOUT,
   VERIFY_REQUEST,
   VERIFY_SUCCESS,
   VERIFY_FAIL,
@@ -269,4 +270,10 @@ export const onBoarding = (formData) => async (dispatch, getState) => {
       })
     );
   }
+};
+
+export const logout = () => (dispatch) => {
+  dispatch({ type: LOGOUT });
+  localStorage.removeItem('user');
+  localStorage.removeItem('token');
 };

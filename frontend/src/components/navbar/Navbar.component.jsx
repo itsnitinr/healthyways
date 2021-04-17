@@ -1,93 +1,152 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import Menu from '@material-ui/core/Menu';
-import { MdAccountCircle } from 'react-icons/md';
-import MenuItem from '@material-ui/core/MenuItem';
-import { RiMenu5Fill } from 'react-icons/ri';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  AppBar,
+  Toolbar,
+  Container,
+  Typography,
+  Button,
+  IconButton,
+} from '@material-ui/core';
+import { MdMenu } from 'react-icons/md';
+import SideDrawer from '../sidebar/Sidebar.component';
 import useStyles from './Navbar.styles';
+import { getNavItems } from './NavItems';
 
-export default function MenuAppBar() {
+import { logout } from '../../redux/user/user.actions';
+
+export default function Navigation() {
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
+
+  const { user } = useSelector((state) => state.userLogin);
 
   const dispatch = useDispatch();
 
-  const { isAuthenticated } = useSelector((state) => state.auth);
+  const [openDrawer, setDrawer] = useState(false);
 
-  const handleMenu = (event) => {
-    setAnchorEl(event.currentTarget);
+  const toggleDrawer = (open) => (event) => {
+    if (
+      event &&
+      event.type === 'keydown' &&
+      (event.key === 'Tab' || event.key === 'Shift')
+    ) {
+      return;
+    }
+    setDrawer(open);
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const navItemsRaw = getNavItems({ user, dispatch, logout, classes });
+  const navItems = user
+    ? user.isAdmin
+      ? navItemsRaw.admin
+      : navItemsRaw.auth
+    : navItemsRaw.noAuth;
+  const navCommon = navItemsRaw.common;
 
   return (
-    <div className={classes.root}>
-      <AppBar position="static" className={classes.navbar} x>
-        <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="menu"
-          >
-            <RiMenu5Fill />
-          </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            Homely
-          </Typography>
-
-          <div>
-            <IconButton
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleMenu}
-              color="inherit"
-            >
-              <MdAccountCircle />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorEl}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+    <>
+      <AppBar
+        color="inherit"
+        elevation={0}
+        position="sticky"
+        style={{ borderBottom: '1px ridge rgba(0,0,0,.05)' }}
+      >
+        <Container maxWidth={false}>
+          <Toolbar className={classes.navbarWrapper}>
+            <div style={{ display: 'flex', flex: 1 }}>
+              <Link to="/">
+                <Typography variant="h6" color="primary">
+                  HealthyWays
+                </Typography>
+              </Link>
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                flex: 2,
+                justifyContent: 'flex-end',
               }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={open}
-              onClose={handleClose}
             >
-              {isAuthenticated ? (
-                <div>
-                  <MenuItem>Logout</MenuItem>
-                  <MenuItem onClick={handleClose}>Profile</MenuItem>
-                </div>
-              ) : (
-                <div>
-                  <MenuItem>
-                    <Link to="/signup/cook">Sign Up as Cook</Link>
-                  </MenuItem>
-                  <MenuItem>
-                    <Link to="/signup/user">Sign Up as User</Link>
-                  </MenuItem>
-                </div>
-              )}
-            </Menu>
-          </div>
-        </Toolbar>
+              <NavMenu
+                classes={classes}
+                navItems={navItems}
+                navCommon={navCommon}
+                user={user}
+                dispatch={dispatch}
+                logout={logout}
+              />
+              <IconButton
+                color="inherit"
+                onClick={toggleDrawer(true)}
+                className={classes.menuButton}
+              >
+                <MdMenu />
+              </IconButton>
+              <SideDrawer
+                openDrawer={openDrawer}
+                toggleDrawer={toggleDrawer}
+                navItems={navItems}
+                navCommon={navCommon}
+              />
+            </div>
+          </Toolbar>
+        </Container>
       </AppBar>
-    </div>
+    </>
   );
 }
+
+const NavMenu = ({ classes, navItems, navCommon, user, dispatch, logout }) => {
+  return (
+    <div className={classes.navMenu}>
+      {navCommon.map((item, key) => (
+        <Button
+          variant={item.buttonType}
+          className={item.class}
+          onClick={item.onClick}
+          to={item.href}
+          component={Link}
+          key={key}
+          disableTouchRipple
+          disableRipple
+          disableFocusRipple
+        >
+          {item.label}
+        </Button>
+      ))}
+      {navItems
+        .filter((item) => item.showInNavbar !== false)
+        .map((item, key) => {
+          let menuItem;
+          switch (item.type) {
+            case 'button':
+              menuItem = (
+                <Button
+                  variant={item.buttonType}
+                  className={item.class}
+                  onClick={item.onClick}
+                  to={item.href}
+                  component={Link}
+                  disableTouchRipple
+                  disableRipple
+                  disableFocusRipple
+                >
+                  {item.label}
+                </Button>
+              );
+              break;
+            default:
+              menuItem = (
+                <Typography variant={item.textVariant}>{item.label}</Typography>
+              );
+          }
+          return (
+            <div className={classes.navItem} key={key}>
+              {menuItem}
+            </div>
+          );
+        })}
+    </div>
+  );
+};

@@ -13,7 +13,10 @@ export default makeStyles((theme) => ({
   img: {
     width: '100%',
     borderRadius: '0.5rem',
-    maxHeight: 200,
+    maxHeight: 180,
+    [theme.breakpoints.down('xs')]: {
+      maxHeight: 200,
+    },
   },
   button: {
     background: '#14A18C',
@@ -22,10 +25,13 @@ export default makeStyles((theme) => ({
     right: '5%',
     fontWeight: 'bold',
     color: 'white',
-    padding: '7px 40px',
-    transform: 'translateY(-70%) translateX(-7%)',
+    padding: '5px 25px',
+    transform: 'translateY(-70%) translateX(-10%)',
     '&:hover': {
       background: '#14A18C',
+    },
+    [theme.breakpoints.down('xs')]: {
+      transform: 'translateY(-70%) translateX(-15%)',
     },
   },
   foodName: {

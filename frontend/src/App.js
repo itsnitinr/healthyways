@@ -1,10 +1,11 @@
 import { ThemeProvider, Button } from '@material-ui/core';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import SignIn from "./pages/signin/SignIn.component";
-import SignUp from "./pages/signup/SignUp.component";
-import HomePage from "./pages/home-page/HomePage.component"
-import LandingPage from "./pages/landing-page/LandingPage.component";
+import Navbar from './components/navbar/Navbar.component';
+import SignIn from './pages/signin/SignIn.component';
+import SignUp from './pages/signup/SignUp.component';
+import HomePage from './pages/home-page/HomePage.component';
+import LandingPage from './pages/landing-page/LandingPage.component';
 import OnBoarding from './pages/on-boarding/OnBoarding.component';
 import { SnackbarProvider } from 'notistack';
 import Notifier from './components/notifier/Notifier.component';
@@ -32,12 +33,13 @@ function App() {
         >
           <Notifier />
           <BrowserRouter>
+            <Navbar />
             <Switch>
-              <Route exact path="/" component={LandingPage}/>
-              <Route exact path="/signin" component={SignIn}/>
-              <Route exact path="/signup" component={SignUp}/>
-              <Route exact path="/home" component={HomePage}/>
-              <Route exact path="/onboarding" component={OnBoarding}/>
+              <Route exact path="/" component={LandingPage} />
+              <Route exact path="/signin" component={SignIn} />
+              <Route exact path="/signup" component={SignUp} />
+              <Route exact path="/home" component={HomePage} />
+              <Route exact path="/onboarding" component={OnBoarding} />
               <Route exact path="/" component={LandingPage} />
               <Route path="/signin" component={SignIn} />
               <Route path="/signup" component={SignUp} />

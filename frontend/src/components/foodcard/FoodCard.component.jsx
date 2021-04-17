@@ -19,11 +19,11 @@ const FoodCard = () => {
         Add
       </Button>
 
-      <Box display="flex" mt={3} justifyContent="space-between">
-        <Typography variant="h5" className={classes.foodName}>
+      <Box display="flex" mt={2} justifyContent="space-between">
+        <Typography variant="h6" className={classes.foodName}>
           Puri Bhaji
         </Typography>
-        <Typography variant="h5" className={classes.price}>
+        <Typography variant="h6" className={classes.price}>
           ₹ 150
         </Typography>
       </Box>
@@ -40,5 +40,4 @@ const FoodCard = () => {
     </Card>
   );
 };
-
 export default FoodCard;
