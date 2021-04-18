@@ -12,6 +12,7 @@ import Notifier from './components/notifier/Notifier.component';
 import VerifyEmail from './pages/verifiy-email/VerifyEmail.component';
 import ForgotPassword from './pages/forgot-password/ForgotPassword.component';
 import ResetPassword from './pages/reset-password/ResetPassword.component';
+import AddFood from "./pages/add-food-page/AddFood.pages";
 import theme from './theme';
 import store from './redux/store';
 import { closeSnackbar } from './redux/alert/alert.actions';
@@ -53,6 +54,7 @@ function App() {
                 path="/reset-password/:resetToken"
                 component={ResetPassword}
               />
+              <Route path="/add-food" component={AddFood}/>
             </Switch>
           </BrowserRouter>
         </SnackbarProvider>
