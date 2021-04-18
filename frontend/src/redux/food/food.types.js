@@ -1,0 +1,3 @@
+export const ADD_FOOD_REQUEST = 'ADD_FOOD_REQUEST';
+export const ADD_FOOD_SUCCESS = 'ADD_FOOD_SUCCESS';
+export const ADD_FOOD_FAIL = 'ADD_FOOD_FAIL';
