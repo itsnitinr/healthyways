@@ -7,7 +7,7 @@ import {
   userVerifyReducer,
   userOnboardingReducer,
 } from './user/user.reducers';
-import { foodAddReducer } from './food/food.reducers';
+import { foodAddReducer, foodSearchReducer } from './food/food.reducers';
 
 export default combineReducers({
   alert: alertReducer,
@@ -16,4 +16,5 @@ export default combineReducers({
   userVerify: userVerifyReducer,
   userOnboarding: userOnboardingReducer,
   foodAdd: foodAddReducer,
+  foodSearch: foodSearchReducer,
 });

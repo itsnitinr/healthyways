@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import useStyles from './HomePage.styles';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
@@ -27,11 +28,13 @@ const HomePage = () => {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
-          <button className={classes.searchButton}>Search</button>
+          <Link to={`/search?search=${search}`}>
+            <button className={classes.searchButton}>Search</button>
+          </Link>
         </div>
         <p className={classes.advancedSearch}>Advanced Search</p>
       </div>
-      <Container>
+      {/* <Container>
         <Grid
           container
           spacing={4}
@@ -51,7 +54,7 @@ const HomePage = () => {
             <FoodCard />
           </Grid>
         </Grid>
-      </Container>
+      </Container> */}
     </>
   );
 };

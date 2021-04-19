@@ -21,7 +21,9 @@ exports.getFoodItemsAdvanced = asyncHandler(async (req, res) => {
   // Filter chefs in 10km radius
   const chefs = await User.find({
     location: {
-      $geoWithin: { $centerSphere: [[longitude, latitude], radius] },
+      $geoWithin: {
+        $centerSphere: [[longitude, latitude], radius],
+      },
     },
     isChef: true,
   });
@@ -54,7 +56,8 @@ exports.getFoodItemsAdvanced = asyncHandler(async (req, res) => {
 
   const foods = await Food.find({ ...query })
     .skip(startIndex)
-    .limit(limit);
+    .limit(limit)
+    .populate('chef');
 
   const pagination = {};
 
@@ -79,7 +82,6 @@ exports.getFoodItemsAdvanced = asyncHandler(async (req, res) => {
 // @desc    Post food item
 // @access  Private
 exports.addFoodItem = asyncHandler(async (req, res) => {
-
   const {
     foodName,
     price,
@@ -89,8 +91,8 @@ exports.addFoodItem = asyncHandler(async (req, res) => {
     availableOn,
   } = req.body;
 
-  const availableOnArray = availableOn.split(",");
-  const tagsArray = tags.split(",");
+  const availableOnArray = availableOn.split(',');
+  const tagsArray = tags.split(',');
 
   const chef = await User.findById(req.user.id);
 
