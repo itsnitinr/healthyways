@@ -13,6 +13,7 @@ import VerifyEmail from './pages/verifiy-email/VerifyEmail.component';
 import ForgotPassword from './pages/forgot-password/ForgotPassword.component';
 import ResetPassword from './pages/reset-password/ResetPassword.component';
 import AddFood from "./pages/add-food-page/AddFood.pages";
+import Footer from "./components/footer/Footer.component";
 import theme from './theme';
 import store from './redux/store';
 import { closeSnackbar } from './redux/alert/alert.actions';
@@ -52,6 +53,7 @@ function App() {
               />
               <Route path="/add-food" component={AddFood}/>
             </Switch>
+            <Footer/>
           </BrowserRouter>
         </SnackbarProvider>
       </Provider>
