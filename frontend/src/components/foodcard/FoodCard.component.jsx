@@ -6,29 +6,25 @@ import Button from '@material-ui/core/Button';
 import { AiOutlineStar } from 'react-icons/ai';
 import useStyles from './FoodCard.styles';
 
-const FoodCard = () => {
+const FoodCard = ({ food }) => {
   const classes = useStyles();
   return (
     <Card className={classes.card}>
-      <img
-        alt="food_img"
-        src="https://drop.ndtv.com/albums/COOKS/pasta-vegetarian/pastaveg_640x480.jpg"
-        className={classes.img}
-      />
+      <img alt="food_img" src={food.image} className={classes.img} />
       <Button className={classes.button} variant="contained">
         Add
       </Button>
 
       <Box display="flex" mt={2} justifyContent="space-between">
         <Typography variant="h6" className={classes.foodName}>
-          Puri Bhaji
+          {food.foodName}
         </Typography>
         <Typography variant="h6" className={classes.price}>
-          ₹ 150
+          ₹ {food.price}
         </Typography>
       </Box>
       <Box display="flex" justifyContent="space-between">
-        <Typography color="textSecondary">by Chef Sanjeev Kapoor</Typography>
+        <Typography color="textSecondary">by Chef {food.chef.name}</Typography>
         <Box display="flex" alignItems="center">
           <AiOutlineStar className={classes.star} />
           <Typography color="textSecondary" className={classes.rating}>

@@ -12,7 +12,8 @@ import Notifier from './components/notifier/Notifier.component';
 import VerifyEmail from './pages/verifiy-email/VerifyEmail.component';
 import ForgotPassword from './pages/forgot-password/ForgotPassword.component';
 import ResetPassword from './pages/reset-password/ResetPassword.component';
-import AddFood from "./pages/add-food-page/AddFood.pages";
+import AddFood from './pages/add-food-page/AddFood.pages';
+import SearchPage from './pages/search-page/SearchPage.component';
 import Footer from "./components/footer/Footer.component";
 import theme from './theme';
 import store from './redux/store';
@@ -51,7 +52,8 @@ function App() {
                 path="/reset-password/:resetToken"
                 component={ResetPassword}
               />
-              <Route path="/add-food" component={AddFood}/>
+              <Route path="/add-food" component={AddFood} />
+              <Route path="/search" component={SearchPage} />
             </Switch>
             <Footer/>
           </BrowserRouter>
