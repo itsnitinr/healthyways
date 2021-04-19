@@ -41,10 +41,6 @@ function App() {
               <Route exact path="/signup" component={SignUp} />
               <Route exact path="/home" component={HomePage} />
               <Route exact path="/onboarding" component={OnBoarding} />
-              <Route exact path="/" component={LandingPage} />
-              <Route path="/signin" component={SignIn} />
-              <Route path="/signup" component={SignUp} />
-              <Route path="/home" component={HomePage} />
               <Route
                 path="/verify/:verificationToken"
                 component={VerifyEmail}

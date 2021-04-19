@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import {
   Container,
   Card,
@@ -12,12 +13,14 @@ import {
   MenuItem,
   TextareaAutosize,
   Button,
+  LinearProgress,
 } from "@material-ui/core";
 import useStyles from "./AddFood.styles";
+import {addFoodItem} from "../../redux/food/food.actions"
 
-const AddFood = () => {
+const AddFood = ({history}) => {
   const [formData, setFormData] = useState({
-    name: "",
+    foodName: "",
     price: "",
     category: "",
     tags: "",
@@ -26,10 +29,27 @@ const AddFood = () => {
 
   const [availableOn, setAvailableOn] = useState([]);
 
-  const [file, setFile] = useState('');
+  const [image, setImage] = useState("");
   const classes = useStyles();
 
-  const { name, price, category, description, tags } = formData;
+  const { foodName, price, category, description, tags } = formData;
+
+  const { user } = useSelector((state) => state.userLogin);
+  const {food, loading} = useSelector((state)=>state.foodAdd);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if(!user){
+      history.push("/signin");
+    }
+    if(!user?.isChef){
+      history.push("/home")
+    }
+    if(food){
+      history.push("/home");
+    }
+  }, [history, user, food]);
 
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -49,21 +69,41 @@ const AddFood = () => {
     } else {
       addToAvailability(e.currentTarget.value);
     }
-
   };
 
   const checkAvailability = (value) => {
     return availableOn.includes(value);
   };
 
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    const formdata = new FormData();
+    formdata.append('foodName', foodName);
+    formdata.append('price', price);
+    formdata.append('category', category);
+    formdata.append('description', description);
+    formdata.append('availableOn', availableOn);
+    formdata.append('image', image);
+    formdata.append('tags', tags);
+  
+
+    dispatch(addFoodItem(formdata));
+  };
+
   return (
     <div className={classes.addFoodDiv}>
-      <form>
+    {loading && <LinearProgress/>}
+      <form onSubmit={onSubmit}>
         <Box className={classes.uploadimgDiv}>
           <img
             className={classes.uploadFood}
             alt="img"
-            src={file ? URL.createObjectURL(file) : 'https://wallpaperaccess.com/full/1285990.jpg'}
+            src={
+              image
+                ? URL.createObjectURL(image)
+                : "https://wallpaperaccess.com/full/1285990.jpg"
+            }
           />
           <div className={classes.uploadimage}>
             <input
@@ -71,8 +111,8 @@ const AddFood = () => {
               className={classes.inputfile}
               id="contained-button-file"
               type="file"
-              name="file"
-              onChange={(e) => setFile(e.target.files[0])}
+              name="image"
+              onChange={(e) => setImage(e.target.files[0])}
             />
             <label htmlFor="contained-button-file">
               <Button variant="contained" color="primary" component="span">
@@ -91,9 +131,9 @@ const AddFood = () => {
               margin="normal"
               required
               fullWidth
-              label="Name"
-              name="name"
-              value={name}
+              label="Food Name"
+              name="foodName"
+              value={foodName}
               autoFocus
               onChange={onChange}
             />
@@ -208,7 +248,7 @@ const AddFood = () => {
               </Grid>
               <Grid md={3} item>
                 <Button
-                 variant={
+                  variant={
                     checkAvailability("tuesday") ? "contained" : "outlined"
                   }
                   value="tuesday"
@@ -221,7 +261,7 @@ const AddFood = () => {
               </Grid>
               <Grid md={3} item>
                 <Button
-                 variant={
+                  variant={
                     checkAvailability("wednesday") ? "contained" : "outlined"
                   }
                   value="wednesday"
@@ -234,7 +274,7 @@ const AddFood = () => {
               </Grid>
               <Grid md={3} item>
                 <Button
-                 variant={
+                  variant={
                     checkAvailability("thursday") ? "contained" : "outlined"
                   }
                   value="thursday"
@@ -247,7 +287,7 @@ const AddFood = () => {
               </Grid>
               <Grid md={3} item>
                 <Button
-                 variant={
+                  variant={
                     checkAvailability("friday") ? "contained" : "outlined"
                   }
                   value="friday"
