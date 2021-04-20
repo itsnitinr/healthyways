@@ -1,17 +1,25 @@
-import React from 'react';
-import Card from '@material-ui/core/Card';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
-import { AiOutlineStar } from 'react-icons/ai';
-import useStyles from './FoodCard.styles';
+import React from "react";
+import Card from "@material-ui/core/Card";
+import Typography from "@material-ui/core/Typography";
+import Box from "@material-ui/core/Box";
+import Button from "@material-ui/core/Button";
+import { AiOutlineStar } from "react-icons/ai";
+import { useDispatch } from "react-redux";
+import useStyles from "./FoodCard.styles";
+import { AddToCart } from "../../redux/cart/cart.actions";
 
 const FoodCard = ({ food }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
   return (
     <Card className={classes.card}>
       <img alt="food_img" src={food.image} className={classes.img} />
-      <Button className={classes.button} variant="contained">
+      <Button
+        className={classes.button}
+        variant="contained"
+        onClick={() => dispatch(AddToCart(food))}
+      >
         Add
       </Button>
 
@@ -28,7 +36,7 @@ const FoodCard = ({ food }) => {
         <Box display="flex" alignItems="center">
           <AiOutlineStar className={classes.star} />
           <Typography color="textSecondary" className={classes.rating}>
-            {' '}
+            {" "}
             4.5
           </Typography>
         </Box>

@@ -7,12 +7,17 @@ const middleware = [thunk];
 
 const userFromLocalStorage = JSON.parse(localStorage.getItem('user')) || null;
 const tokenFromLocalStorage = localStorage.getItem('token') || '';
+const cartFromLocalStorage = JSON.parse(localStorage.getItem('cartItems')) || [];
+
 
 const initialState = {
   userLogin: {
     user: userFromLocalStorage,
     token: tokenFromLocalStorage,
   },
+  cart:{
+    cartItems: cartFromLocalStorage
+  }
 };
 
 const store = createStore(

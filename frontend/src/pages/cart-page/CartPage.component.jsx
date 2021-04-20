@@ -12,13 +12,17 @@ import {
 } from "@material-ui/core";
 import { GrAdd, GrSubtract } from "react-icons/gr";
 import { ImCross } from "react-icons/im";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import useStyles from "./CartPage.styles";
+import { AddToCart, removeFromCart, clearItemFromCart } from "../../redux/cart/cart.actions"
 
 const CartPage = ({ history }) => {
   const classes = useStyles();
+  const dispatch = useDispatch()
 
+  const { cartItems } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.userLogin);
+
 
   useEffect(() => {
     if (!user) {
@@ -40,42 +44,48 @@ const CartPage = ({ history }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              <TableRow>
-                <TableCell component="th" scope="row">
-                  <img
-                    className={classes.foodImage}
-                    src="https://www.clubmahindra.com/blog/media/section_images/traditiona-4587f0ec65deaf1.jpg"
-                  />
-                </TableCell>
-                <TableCell>Idli</TableCell>
-                <TableCell>1 plate</TableCell>
-                <TableCell>₹50</TableCell>
-                <TableCell>
-                  <Box>
-                    <Button
-                      className={classes.add}
-                      variant="contained"
-                      color="primary"
-                    >
-                      <GrAdd className={classes.addIcon} />
-                    </Button>
-                    <Button
-                      className={classes.subtract}
-                      variant="contained"
-                      color="primary"
-                    >
-                      <GrSubtract className={classes.subtractIcon} />
-                    </Button>
-                    <Button
-                      className={classes.remove}
-                      variant="contained"
-                      color="primary"
-                    >
-                      <ImCross />
-                    </Button>
-                  </Box>
-                </TableCell>
-              </TableRow>
+              {cartItems.map((item) => (
+                <TableRow>
+                  <TableCell component="th" scope="row">
+                    <img
+                      className={classes.foodImage}
+                      src={item.image}
+                      alt={item.foodName}
+                    />
+                  </TableCell>
+                  <TableCell>{item.foodName}</TableCell>
+                  <TableCell>{item.quantity}</TableCell>
+                  <TableCell>₹{item.price*item.quantity}</TableCell>
+                  <TableCell>
+                    <Box>
+                      <Button
+                        className={classes.add}
+                        variant="contained"
+                        color="primary"
+                        onClick={()=>dispatch(AddToCart(item))}
+                      >
+                        <GrAdd className={classes.addIcon} />
+                      </Button>
+                      <Button
+                        className={classes.subtract}
+                        variant="contained"
+                        color="primary"
+                        onClick={()=>dispatch(removeFromCart(item))}
+                      >
+                        <GrSubtract className={classes.subtractIcon} />
+                      </Button>
+                      <Button
+                        className={classes.remove}
+                        variant="contained"
+                        color="primary"
+                        onClick={()=>dispatch(clearItemFromCart(item?._id))}
+                      >
+                        <ImCross />
+                      </Button>
+                    </Box>
+                  </TableCell>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </TableContainer>

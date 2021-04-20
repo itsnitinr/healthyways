@@ -51,6 +51,12 @@ export const getNavItems = (props) => ({
       href: '/dashboard',
     },
     {
+      label: 'Cart',
+      icon: <RiDashboardLine fontSize={28} />,
+      type: 'button',
+      href: '/cart',
+    },
+    {
       label: 'Logout',
       icon: <RiLogoutCircleLine fontSize={28} />,
       type: 'button',
@@ -58,6 +64,7 @@ export const getNavItems = (props) => ({
       class: props.classes.signUpButton,
       onClick: () => props.dispatch(props.logout()),
     },
+    
   ],
   admin: [
     {
