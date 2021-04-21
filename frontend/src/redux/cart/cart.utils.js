@@ -19,12 +19,12 @@ export const addToCart = (cartItems, cartItemToAdd) => {
   export const removeFromCart = (cartItems, cartItemToRemove) => {
     // Check if item exists using find method
     const existingCartItem = cartItems.find(
-      (cartItem) => cartItem.id === cartItemToRemove.id
+      (cartItem) => cartItem._id === cartItemToRemove._id
     );
   
     // If the quanity is 1, clear it from cart using filter method
     if (existingCartItem.quantity === 1) {
-      return cartItems.filter((cartItem) => cartItem.id !== cartItemToRemove.id);
+      return cartItems.filter((cartItem) => cartItem._id !== cartItemToRemove._id);
     }
     return cartItems.map((cartItem) =>
       cartItem._id === cartItemToRemove._id
