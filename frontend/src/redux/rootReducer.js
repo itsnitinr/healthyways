@@ -8,7 +8,8 @@ import {
   userOnboardingReducer,
 } from './user/user.reducers';
 import { foodAddReducer, foodSearchReducer } from './food/food.reducers';
-import {cartReducer} from "./cart/cart.reducers";
+import { cartReducer } from './cart/cart.reducers';
+import { orderCreateReducer } from './order/order.reducers';
 
 export default combineReducers({
   alert: alertReducer,
@@ -18,5 +19,6 @@ export default combineReducers({
   userOnboarding: userOnboardingReducer,
   foodAdd: foodAddReducer,
   foodSearch: foodSearchReducer,
-  cart: cartReducer
+  cart: cartReducer,
+  orderCreate: orderCreateReducer,
 });
