@@ -16,7 +16,8 @@ import AddFood from './pages/add-food-page/AddFood.pages';
 import SearchPage from './pages/search-page/SearchPage.component';
 import Footer from "./components/footer/Footer.component";
 import CartPage from "./pages/cart-page/CartPage.component";
-import Dashbard from "./pages/dashboard/Dashboard.component"
+import Dashbard from "./pages/dashboard/Dashboard.component";
+import EditFoodPage from "./pages/edit-food-page/EditFoodPage.component";
 import theme from './theme';
 import store from './redux/store';
 import { closeSnackbar } from './redux/alert/alert.actions';
@@ -58,6 +59,7 @@ function App() {
               <Route path="/search" component={SearchPage} />
               <Route path="/cart" component={CartPage}/>
               <Route path="/dashboard" component={Dashbard} />
+              <Route path="/edit-food/:id" component={EditFoodPage}/>
             </Switch>
             <Footer/>
           </BrowserRouter>
