@@ -1,9 +1,11 @@
 import React, {useEffect} from "react";
 import {useSelector} from "react-redux"
 import { Link } from "react-router-dom";
-import { Box, Grid, Typography } from "@material-ui/core";
+import {  Grid, Typography } from "@material-ui/core";
 import DashboardCard from "../../components/dashboard-card/DashboardCard.component";
-import useStyles from "./UserDashboard.styles";
+import UserLanding from "../../components/user-landing/UserLanding.component";
+import ChefLanding from "../../components/chef-landing/ChefLanding.component";
+import useStyles from "./Dashboard.styles";
 
 const UserDashboard = ({history}) => {
   const classes = useStyles();
@@ -18,18 +20,7 @@ const UserDashboard = ({history}) => {
   }, [history, user])
   return (
     <div className={classes.root}>
-      <Box className={classes.userDetailsDiv}>
-        <Box className={classes.userDetails}>
-          <div className={classes.name}>
-            <Typography variant="h4" >{user?.name}</Typography>
-            <Typography>{user?.location?.formattedAddress}, {user?.pincode}</Typography>
-          </div>
-          <div className={classes.date}>
-            <Typography variant="h4">Role: {user?.isChef ? "Chef":"User"}</Typography>
-            <Typography>User since {user?.createdAt.substring(0,10)}</Typography>
-          </div>
-        </Box>
-      </Box>
+     {user?.isChef ? <ChefLanding/>: <UserLanding/>}
       <Grid container>
         <Grid md={3} item className={classes.profileGrid}>
           <Typography className={classes.profileHeader} variant="h4">
