@@ -7,10 +7,13 @@ import {
   PLACE_ORDER_FAIL,
 } from './order.types';
 
-export const placeOrder = (orderDetails) => async (dispatch) => {
+export const placeOrder = (orderDetails) => async (dispatch, getState) => {
+  const { token } = getState().userLogin;
+
   const config = {
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
     },
   };
 
@@ -26,7 +29,7 @@ export const placeOrder = (orderDetails) => async (dispatch) => {
         },
       })
     );
-  } catch (err) {
+  } catch (error) {
     const errorMsg =
       error.response && error.response.data.message
         ? error.response.data.message

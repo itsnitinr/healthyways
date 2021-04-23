@@ -11,7 +11,7 @@ export const orderCreateReducer = (state = {}, action) => {
     case PLACE_ORDER_REQUEST:
       return { loading: true };
     case PLACE_ORDER_SUCCESS:
-      return { loading: false, order: payload };
+      return { loading: false, order: payload, success: true };
     case PLACE_ORDER_FAIL:
       return { loading: false, error: payload };
     default:
