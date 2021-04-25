@@ -1,16 +1,18 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { GrDocumentPdf, GrCamera } from 'react-icons/gr';
 import Card from '@material-ui/core/Card';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
-import LinearProgress from '@material-ui/core/LinearProgress';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { AiOutlineUser } from 'react-icons/ai';
 import { BiMap } from 'react-icons/bi';
 import useStyles from './OnBoarding.styles';
 import { onBoarding } from '../../redux/user/user.actions';
+import { enqueueSnackbar } from '../../redux/alert/alert.actions';
 
 const OnBoarding = ({ history }) => {
   const [formData, setFormData] = useState({
@@ -55,7 +57,12 @@ const OnBoarding = ({ history }) => {
     formdata.append('phoneNumber', phoneNumber);
     if (user?.isChef) {
       if (!verificationDocument) {
-        return alert('You must attach all documents');
+        return dispatch(
+          enqueueSnackbar({
+            message: 'You must attach the verification document',
+            options: { variant: 'error' },
+          })
+        );
       } else {
         formdata.append('verificationDocument', verificationDocument);
       }
@@ -71,7 +78,6 @@ const OnBoarding = ({ history }) => {
   const classes = useStyles();
   return (
     <div className={classes.onboardBack}>
-      {loading && <LinearProgress />}
       <Container className={classes.container}>
         <Card className={classes.card}>
           <AiOutlineUser className={classes.avatar} />
@@ -106,7 +112,25 @@ const OnBoarding = ({ history }) => {
             />
 
             <br />
-            <input type="file" name="profilePic" onChange={handleImgChange} />
+            <input
+              accept="image/*"
+              className={classes.inputfile}
+              name="profilePic"
+              type="file"
+              onChange={handleImgChange}
+              id="photo-button"
+            />
+            <label htmlFor="photo-button">
+              <Button
+                fullWidth
+                variant="outlined"
+                color="primary"
+                component="span"
+              >
+                <GrCamera /> &nbsp;&nbsp;&nbsp; Upload Your Photo
+              </Button>
+            </label>
+            <br />
             <br />
 
             {user?.isChef && (
@@ -114,14 +138,19 @@ const OnBoarding = ({ history }) => {
                 <input
                   accept=".pdf"
                   className={classes.inputfile}
-                  id="contained-button-file"
                   name="verificationDocument"
                   type="file"
                   onChange={handleDocsChange}
+                  id="document-button"
                 />
-                <label htmlFor="contained-button-file">
-                  <Button variant="contained" color="primary" component="span">
-                    Upload
+                <label htmlFor="document-button">
+                  <Button
+                    fullWidth
+                    variant="outlined"
+                    color="primary"
+                    component="span"
+                  >
+                    <GrDocumentPdf /> &nbsp;&nbsp;&nbsp; Upload Documents
                   </Button>
                 </label>
                 <br />
@@ -136,6 +165,7 @@ const OnBoarding = ({ history }) => {
             >
               Get Started
             </Button>
+            {loading && <CircularProgress />}
           </form>
         </Card>
       </Container>
