@@ -191,7 +191,7 @@ const CartPage = ({ history }) => {
                     >
                       <Typography variant="h6">Total Price</Typography>
                       <Typography variant="h6" color="primary">
-                        ₹{orderPrice + taxPrice}
+                        ₹{(orderPrice + taxPrice).toFixed(2)}
                       </Typography>
                     </Box>
                     <Box justifyContent="center" mt={2}>
