@@ -14,10 +14,11 @@ import ForgotPassword from './pages/forgot-password/ForgotPassword.component';
 import ResetPassword from './pages/reset-password/ResetPassword.component';
 import AddFood from './pages/add-food-page/AddFood.pages';
 import SearchPage from './pages/search-page/SearchPage.component';
-import Footer from "./components/footer/Footer.component";
-import CartPage from "./pages/cart-page/CartPage.component";
-import Dashbard from "./pages/dashboard/Dashboard.component";
-import EditFoodPage from "./pages/edit-food-page/EditFoodPage.component";
+import Footer from './components/footer/Footer.component';
+import CartPage from './pages/cart-page/CartPage.component';
+import Dashbard from './pages/dashboard/Dashboard.component';
+import EditFoodPage from './pages/edit-food-page/EditFoodPage.component';
+import OrderDetailsPage from './pages/order-details-page/OrderDetailsPage.component';
 import theme from './theme';
 import store from './redux/store';
 import { closeSnackbar } from './redux/alert/alert.actions';
@@ -57,11 +58,12 @@ function App() {
               />
               <Route path="/add-food" component={AddFood} />
               <Route path="/search" component={SearchPage} />
-              <Route path="/cart" component={CartPage}/>
+              <Route path="/cart" component={CartPage} />
               <Route path="/dashboard" component={Dashbard} />
-              <Route path="/edit-food/:id" component={EditFoodPage}/>
+              <Route path="/order/:id" component={OrderDetailsPage} />
+              <Route path="/edit-food/:id" component={EditFoodPage} />
             </Switch>
-            <Footer/>
+            <Footer />
           </BrowserRouter>
         </SnackbarProvider>
       </Provider>

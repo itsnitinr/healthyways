@@ -135,6 +135,34 @@ exports.getAllOrders = asyncHandler(async (req, res) => {
   res.json(orders);
 });
 
+// @route   GET /api/orders/:id
+// @desc    Get order details by ID
+// @access  Private
+exports.getOrderById = asyncHandler(async (req, res) => {
+  const order = await Order.findById(req.params.id).populate([
+    {
+      path: 'user',
+      select: 'name email phoneNumber',
+    },
+    {
+      path: 'chef',
+      select: 'name phoneNumber',
+    },
+    {
+      path: 'foodItems.food',
+      select: 'foodName image',
+    },
+  ]);
+
+  // Check if order exists
+  if (order) {
+    res.json(order);
+  } else {
+    res.status(404);
+    throw new Error('Order not found');
+  }
+});
+
 // @route   POST /api/orders/:id/confirm
 // @desc    Approve or reject order
 // @access  Chef only
@@ -151,18 +179,22 @@ exports.confirmOrder = asyncHandler(async (req, res) => {
   }
 
   const { isConfirmed } = req.body;
-  order.underReview = false;
+  order.underConfirmation = false;
   order.isConfirmed = isConfirmed;
 
   let updatedOrder = await order.save();
   updatedOrder = await Order.populate(updatedOrder, [
     {
       path: 'user',
-      select: 'name email',
+      select: 'name email phoneNumber',
     },
     {
-      path: 'email',
-      select: 'name email',
+      path: 'chef',
+      select: 'name phoneNumber',
+    },
+    {
+      path: 'foodItems.food',
+      select: 'foodName image',
     },
   ]);
 
@@ -214,7 +246,7 @@ exports.payOrder = asyncHandler(async (req, res) => {
       },
       {
         path: 'chef',
-        select: 'name email',
+        select: 'name phoneNumber',
       },
     ]);
 
@@ -268,7 +300,7 @@ exports.readyOrder = asyncHandler(async (req, res) => {
     },
     {
       path: 'chef',
-      select: 'name email',
+      select: 'name phoneNumber',
     },
   ]);
 
