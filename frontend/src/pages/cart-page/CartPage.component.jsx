@@ -12,6 +12,7 @@ import {
   Grid,
   Card,
   Typography,
+  LinearProgress,
 } from "@material-ui/core";
 import { GrAdd, GrSubtract } from "react-icons/gr";
 import { ImCross } from "react-icons/im";
@@ -23,6 +24,7 @@ import {
   clearItemFromCart,
 } from "../../redux/cart/cart.actions";
 import { getCartTotal } from "../../redux/cart/cart.utils";
+import { placeOrder } from "../../redux/order/order.actions";
 
 const CartPage = ({ history }) => {
   const classes = useStyles();
@@ -30,18 +32,44 @@ const CartPage = ({ history }) => {
 
   const { cartItems } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.userLogin);
+  const { loading, order, success } = useSelector((state) => state.orderCreate);
+
+  const orderPrice = parseInt(getCartTotal(cartItems));
+  const taxPrice = parseFloat((orderPrice * 0.18).toFixed(2));
 
   useEffect(() => {
     if (!user) {
       history.push("/signin");
     }
-  }, [history, user]);
+    if (success) {
+      history.push("/dashboard");
+    }
+  }, [history, user, success, order?._id]);
 
-  const orderPrice = parseInt(getCartTotal(cartItems));
-  const taxPrice = parseFloat((orderPrice * 0.18).toFixed(2));
-  console.log(cartItems);
+  const handlePlaceOrder = () => {
+    const itemOneChef = cartItems[0].chef._id;
+    const sameChefArray = cartItems.filter(
+      (item) => item.chef._id === itemOneChef
+    );
+    if (sameChefArray.length !== cartItems.length)
+      return alert("Please ensure all food items are from the same chef.");
+    const orderDetails = {
+      chef: itemOneChef,
+      foodItems: cartItems.map((item) => ({
+        food: item._id,
+        quantity: item.quantity,
+        price: item.quantity * item.price,
+      })),
+      orderPrice,
+      taxPrice,
+      totalPrice: orderPrice + taxPrice,
+    };
+    dispatch(placeOrder(orderDetails));
+  };
+
   return (
     <div>
+      {loading && <LinearProgress />}
       <Container>
         {cartItems.length === 0 ? (
           <Box mt={3} mb={3}>
@@ -163,7 +191,7 @@ const CartPage = ({ history }) => {
                     >
                       <Typography variant="h6">Total Price</Typography>
                       <Typography variant="h6" color="primary">
-                        ₹{orderPrice + taxPrice}
+                        ₹{(orderPrice + taxPrice).toFixed(2)}
                       </Typography>
                     </Box>
                     <Box justifyContent="center" mt={2}>
@@ -172,6 +200,7 @@ const CartPage = ({ history }) => {
                         fullWidth
                         variant="contained"
                         color="primary"
+                        onClick={handlePlaceOrder}
                       >
                         Place Order
                       </Button>

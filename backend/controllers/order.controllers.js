@@ -94,7 +94,12 @@ exports.getOrderById = asyncHandler(async (req, res) => {
 // @desc    Get logged in user's orders
 // @access  Private
 exports.getUserOrders = asyncHandler(async (req, res) => {
-  const orders = await Order.find({ user: req.user._id }).sort('-createdAt');
+  const orders = await Order.find({ user: req.user._id })
+    .populate([
+      { path: 'chef', select: 'name' },
+      { path: 'foodItems.food', select: 'foodName' },
+    ])
+    .sort('-createdAt');
   res.json(orders);
 });
 
@@ -102,7 +107,12 @@ exports.getUserOrders = asyncHandler(async (req, res) => {
 // @desc    Get logged in chef's orders
 // @access  Private
 exports.getChefOrders = asyncHandler(async (req, res) => {
-  const orders = await Order.find({ chef: req.user._id }).sort('-createdAt');
+  const orders = await Order.find({ chef: req.user._id })
+    .populate([
+      { path: 'chef', select: 'name' },
+      { path: 'foodItems.food', select: 'foodName' },
+    ])
+    .sort('-createdAt');
   res.json(orders);
 });
 

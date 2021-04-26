@@ -1,12 +1,12 @@
-import React from "react";
-import { Card, Grid, Typography, Box } from "@material-ui/core";
-import TodaysOrder from "../../assets/today-orders.svg";
-import UntrackedOrder from "../../assets/untracted-order.svg";
-import AllCheckOrder from "../../assets/all-check-order.svg";
-import Orders from "../../assets/all-order.svg";
-import useStyles from "./ChefLanding.styles";
+import React from 'react';
+import { Card, Grid, Typography, Box } from '@material-ui/core';
+import TodaysOrder from '../../assets/today-orders.svg';
+import UntrackedOrder from '../../assets/untracted-order.svg';
+import AllCheckOrder from '../../assets/all-check-order.svg';
+import Orders from '../../assets/all-order.svg';
+import useStyles from './ChefLanding.styles';
 
-const ChefLanding = () => {
+const ChefLanding = ({ orders }) => {
   const classes = useStyles();
   return (
     <>
@@ -14,11 +14,11 @@ const ChefLanding = () => {
         <Grid item md={3}>
           <Card className={classes.card}>
             <img src={TodaysOrder} />
-            <Typography className={classes.heading}>
-              Today's total orders
-            </Typography>
+            <Typography className={classes.heading}>Today's orders</Typography>
             <Typography className={classes.number} variant="h4">
-              30
+              {orders &&
+                orders.filter((order) => Date(order.createdAt) === Date())
+                  .length}
             </Typography>
           </Card>
         </Grid>
@@ -26,10 +26,11 @@ const ChefLanding = () => {
           <Card className={classes.card}>
             <img src={UntrackedOrder} />
             <Typography className={classes.heading}>
-              All checked orders
+              Orders to Confirm
             </Typography>
             <Typography className={classes.number} variant="h4">
-              25
+              {orders &&
+                orders.filter((order) => order.underConfirmation).length}
             </Typography>
           </Card>
         </Grid>
@@ -37,10 +38,10 @@ const ChefLanding = () => {
           <Card className={classes.card}>
             <img src={AllCheckOrder} />
             <Typography className={classes.heading}>
-              Untracted Orders
+              Confirmed Orders
             </Typography>
             <Typography className={classes.number} variant="h4">
-              5
+              {orders && orders.filter((order) => order.isConfirmed).length}
             </Typography>
           </Card>
         </Grid>
@@ -49,7 +50,7 @@ const ChefLanding = () => {
             <img src={Orders} />
             <Typography className={classes.heading}>Total orders</Typography>
             <Typography className={classes.number} variant="h4">
-              600
+              {orders?.length}
             </Typography>
           </Card>
         </Grid>

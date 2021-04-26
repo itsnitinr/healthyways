@@ -5,12 +5,18 @@ import {
   PLACE_ORDER_REQUEST,
   PLACE_ORDER_SUCCESS,
   PLACE_ORDER_FAIL,
+  GET_MY_ORDERS_REQUEST,
+  GET_MY_ORDERS_SUCCESS,
+  GET_MY_ORDERS_FAIL,
 } from './order.types';
 
-export const placeOrder = (orderDetails) => async (dispatch) => {
+export const placeOrder = (orderDetails) => async (dispatch, getState) => {
+  const { token } = getState().userLogin;
+
   const config = {
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
     },
   };
 
@@ -26,7 +32,7 @@ export const placeOrder = (orderDetails) => async (dispatch) => {
         },
       })
     );
-  } catch (err) {
+  } catch (error) {
     const errorMsg =
       error.response && error.response.data.message
         ? error.response.data.message
@@ -42,5 +48,32 @@ export const placeOrder = (orderDetails) => async (dispatch) => {
         },
       })
     );
+  }
+};
+
+export const getMyOrders = (role) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: GET_MY_ORDERS_REQUEST });
+
+    const { token } = getState().userLogin;
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const { data } = await axios.get(`/api/orders/${role}/my`, config);
+
+    dispatch({ type: GET_MY_ORDERS_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: GET_MY_ORDERS_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
   }
 };
