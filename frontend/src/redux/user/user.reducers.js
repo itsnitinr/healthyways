@@ -12,7 +12,10 @@ import {
   ONBOARDING_FAIL,
   ONBOARDING_REQUEST,
   ONBOARDING_SUCCESS,
-} from './user.types';
+  EDIT_PASSWORD_REQUEST,
+  EDIT_PASSWORD_SUCCESS,
+  EDIT_PASSWORD_FAIL,
+} from "./user.types";
 
 export const userRegisterReducer = (state = {}, action) => {
   const { type, payload } = action;
@@ -67,6 +70,19 @@ export const userOnboardingReducer = (state = { loading: false }, action) => {
       return { loading: false, user: action.payload.user, success: true };
     case ONBOARDING_FAIL:
       return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const userUpdateReducer = (state = { loading: false }, action) => {
+  switch (action.type) {
+    case EDIT_PASSWORD_REQUEST:
+      return { loading: true, success: false };
+    case EDIT_PASSWORD_SUCCESS:
+      return { loading: false, user: action.payload.user, success: true };
+    case EDIT_PASSWORD_FAIL:
+      return { loading: false, error: action.payload, success: false };
     default:
       return state;
   }

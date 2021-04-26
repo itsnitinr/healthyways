@@ -39,6 +39,7 @@ const CartPage = ({ history }) => {
 
   const orderPrice = parseInt(getCartTotal(cartItems));
   const taxPrice = parseFloat((orderPrice * 0.18).toFixed(2));
+  console.log(cartItems);
   return (
     <div>
       <Container>

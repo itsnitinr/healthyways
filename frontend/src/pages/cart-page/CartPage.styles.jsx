@@ -17,6 +17,7 @@ export default makeStyles((theme) => ({
     background: theme.palette.primary.main,
     padding: "0.3rem 0.4rem",
     color: "white",
+    borderRadius: "0.3rem",
   },
   subtract: {
     margin: "0 1rem",

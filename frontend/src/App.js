@@ -1,32 +1,35 @@
-import { ThemeProvider, Button } from '@material-ui/core';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import Navbar from './components/navbar/Navbar.component';
-import SignIn from './pages/signin/SignIn.component';
-import SignUp from './pages/signup/SignUp.component';
-import HomePage from './pages/home-page/HomePage.component';
-import LandingPage from './pages/landing-page/LandingPage.component';
-import OnBoarding from './pages/on-boarding/OnBoarding.component';
-import { SnackbarProvider } from 'notistack';
-import Notifier from './components/notifier/Notifier.component';
-import VerifyEmail from './pages/verifiy-email/VerifyEmail.component';
-import ForgotPassword from './pages/forgot-password/ForgotPassword.component';
-import ResetPassword from './pages/reset-password/ResetPassword.component';
-import AddFood from './pages/add-food-page/AddFood.pages';
-import SearchPage from './pages/search-page/SearchPage.component';
+import { ThemeProvider, Button } from "@material-ui/core";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { Provider } from "react-redux";
+import Navbar from "./components/navbar/Navbar.component";
+import SignIn from "./pages/signin/SignIn.component";
+import SignUp from "./pages/signup/SignUp.component";
+import HomePage from "./pages/home-page/HomePage.component";
+import LandingPage from "./pages/landing-page/LandingPage.component";
+import OnBoarding from "./pages/on-boarding/OnBoarding.component";
+import { SnackbarProvider } from "notistack";
+import Notifier from "./components/notifier/Notifier.component";
+import VerifyEmail from "./pages/verifiy-email/VerifyEmail.component";
+import ForgotPassword from "./pages/forgot-password/ForgotPassword.component";
+import ResetPassword from "./pages/reset-password/ResetPassword.component";
+import AddFood from "./pages/add-food-page/AddFood.pages";
+import SearchPage from "./pages/search-page/SearchPage.component";
 import Footer from "./components/footer/Footer.component";
 import CartPage from "./pages/cart-page/CartPage.component";
 import Dashbard from "./pages/dashboard/Dashboard.component";
 import EditFoodPage from "./pages/edit-food-page/EditFoodPage.component";
-import theme from './theme';
-import store from './redux/store';
-import { closeSnackbar } from './redux/alert/alert.actions';
+import MyFoodPage from "./pages/my-food-page/MyFoodPage.component";
+import EditProfile from "./pages/edit-profile/EditProfile.component";
+import theme from "./theme";
+import store from "./redux/store";
+import { closeSnackbar } from "./redux/alert/alert.actions";
+import EditPassword from "./pages/edit-password/EditPassword.component";
 
 const snackbarDimissButton = () => (
   <Button onClick={() => store.dispatch(closeSnackbar())}>dismiss me</Button>
 );
 
-const snackbarPosition = () => ({ vertical: 'bottom', horizontal: 'right' });
+const snackbarPosition = () => ({ vertical: "bottom", horizontal: "right" });
 
 function App() {
   return (
@@ -57,11 +60,14 @@ function App() {
               />
               <Route path="/add-food" component={AddFood} />
               <Route path="/search" component={SearchPage} />
-              <Route path="/cart" component={CartPage}/>
+              <Route path="/cart" component={CartPage} />
               <Route path="/dashboard" component={Dashbard} />
-              <Route path="/edit-food/:id" component={EditFoodPage}/>
+              <Route path="/edit-food/:id" component={EditFoodPage} />
+              <Route path="/my-food" component={MyFoodPage} />
+              <Route path="/edit-profile" component={EditProfile} />
+              <Route path="/edit-password" component={EditPassword} />
             </Switch>
-            <Footer/>
+            <Footer />
           </BrowserRouter>
         </SnackbarProvider>
       </Provider>
