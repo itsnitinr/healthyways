@@ -164,8 +164,8 @@ exports.deleteFoodItem = asyncHandler(async (req, res) => {
   res.json({ message: "Deleted food item successfully" });
 });
 
-// @route   DELETE /api/foods/:id
-// @desc    Delete( food item
+// @route   GET /api/foods/:id
+// @desc    get single food item
 // @access  Private
 exports.getSingleFoodItem = asyncHandler(async (req, res) => {
   const food = await Food.findById(req.params.id);
@@ -175,7 +175,7 @@ exports.getSingleFoodItem = asyncHandler(async (req, res) => {
     throw new Error("This food item does not exist");
   }
 
-  if (food.chef.toString() !== req.user.id.toString()) {
+  if (food.chef.toString() !== req.user.id) {
     res.status(401);
     throw new Error("You can't access this route");
   }
@@ -183,8 +183,8 @@ exports.getSingleFoodItem = asyncHandler(async (req, res) => {
   res.json(food);
 });
 
-// @route   DELETE /api/foods/:id
-// @desc    Delete food item
+// @route   GET /api/foods/my
+// @desc    get my food (chef)
 // @access  Private
 exports.getMyFoodItems = asyncHandler(async (req, res) => {
   const foods = await Food.find({ chef: req.user.id });

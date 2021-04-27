@@ -14,6 +14,12 @@ import {
   GET_MY_FOOD_REQUEST,
   GET_MY_FOOD_SUCCESS,
   GET_MY_FOOD_FAIL,
+  GET_SINGLE_FOODITEM_REQUEST,
+  GET_SINGLE_FOODITEM_SUCCESS,
+  GET_SINGLE_FOODITEM_FAIL,
+  DELETE_FOOD_ITEM_REQUEST,
+  DELETE_FOOD_ITEM_SUCCESS,
+  DELETE_FOOD_ITEM_FAIL,
 } from "./food.types";
 
 export const addFoodItem = (formData) => async (dispatch, getState) => {
@@ -109,7 +115,7 @@ export const getMyFood = () => async (dispatch, getState) => {
 
     const { data } = await axios.get("/api/foods/my", config);
 
-    dispatch({ type: GET_MY_FOOD_SUCCESS, data: data });
+    dispatch({ type: GET_MY_FOOD_SUCCESS, payload: data });
   } catch (error) {
     const errorMsg =
       error.response && error.response.data.message
@@ -129,7 +135,7 @@ export const getMyFood = () => async (dispatch, getState) => {
   }
 };
 
-export const updateFood = (formData) => async (dispatch, getState) => {
+export const updateFood = (formData, id) => async (dispatch, getState) => {
   const { userLogin } = getState();
   const config = {
     headers: {
@@ -139,7 +145,101 @@ export const updateFood = (formData) => async (dispatch, getState) => {
   };
   try {
     dispatch({ type: UPDATE_FOOD_REQUEST });
+    const { data } = await axios.put(`/api/foods/${id}`, formData, config);
+    dispatch({ type: UPDATE_FOOD_SUCCESS, payload: data });
 
-    const { data } = await axios.put("");
-  } catch (error) {}
+    dispatch(
+      enqueueSnackbar({
+        message: "Updated food item successfully",
+        options: { variant: "success" },
+      })
+    );
+  } catch (error) {
+    const errorMsg =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+
+    dispatch({ type: UPDATE_FOOD_FAIL, payload: errorMsg });
+
+    dispatch(
+      enqueueSnackbar({
+        message: errorMsg,
+        options: {
+          variant: "error",
+        },
+      })
+    );
+  }
+};
+
+export const getSingleFoodItem = (id) => async (dispatch, getState) => {
+  const { userLogin } = getState();
+  const config = {
+    headers: {
+      Authorization: `Bearer ${userLogin.token}`,
+    },
+  };
+  try {
+    dispatch({ type: GET_SINGLE_FOODITEM_REQUEST });
+
+    const { data } = await axios.get(`/api/foods/${id}`, config);
+    console.log(data);
+
+    dispatch({ type: GET_SINGLE_FOODITEM_SUCCESS, payload: data });
+  } catch (error) {
+    const errorMsg =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+
+    dispatch({ type: GET_SINGLE_FOODITEM_FAIL, payload: errorMsg });
+
+    dispatch(
+      enqueueSnackbar({
+        message: errorMsg,
+        options: {
+          variant: "error",
+        },
+      })
+    );
+  }
+};
+
+export const deleteFoodItem = (id) => async (dispatch, getState) => {
+  const { userLogin } = getState();
+  const config = {
+    headers: {
+      Authorization: `Bearer ${userLogin.token}`,
+    },
+  };
+
+  try {
+    dispatch({ type: DELETE_FOOD_ITEM_REQUEST });
+    await axios.delete(`/api/foods/${id}`, config);
+
+    dispatch({ type: DELETE_FOOD_ITEM_SUCCESS });
+    dispatch(
+      enqueueSnackbar({
+        message: "Deleted food item successfully",
+        options: { variant: "success" },
+      })
+    );
+  } catch (error) {
+    const errorMsg =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+
+    dispatch({ type: DELETE_FOOD_ITEM_FAIL, payload: errorMsg });
+
+    dispatch(
+      enqueueSnackbar({
+        message: errorMsg,
+        options: {
+          variant: "error",
+        },
+      })
+    );
+  }
 };

@@ -7,6 +7,7 @@ const {
   updateFoodItem,
   deleteFoodItem,
   getMyFoodItems,
+  getSingleFoodItem,
 } = require("../controllers/food.controllers");
 
 const { auth, chefOnly } = require("../middlewares/auth.middleware");
@@ -16,9 +17,9 @@ router.get("/", getFoodItems);
 router.post("/advanced", getFoodItemsAdvanced);
 router.post("/", auth, chefOnly, upload.single("image"), addFoodItem);
 router.put("/:id", auth, chefOnly, upload.single("image"), updateFoodItem);
-router.get("/:id", auth, chefOnly);
-router.delete("/:id", auth, chefOnly, deleteFoodItem);
 router.get("/my", auth, chefOnly, getMyFoodItems);
+router.get("/:id", auth, chefOnly, getSingleFoodItem);
+router.delete("/:id", auth, chefOnly, deleteFoodItem);
 
 // Advanced
 // 1. Get food items in 5km radius

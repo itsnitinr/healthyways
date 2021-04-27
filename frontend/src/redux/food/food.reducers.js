@@ -11,6 +11,9 @@ import {
   GET_MY_FOOD_REQUEST,
   GET_MY_FOOD_SUCCESS,
   GET_MY_FOOD_FAIL,
+  GET_SINGLE_FOODITEM_REQUEST,
+  GET_SINGLE_FOODITEM_SUCCESS,
+  GET_SINGLE_FOODITEM_FAIL,
 } from "./food.types";
 
 export const foodAddReducer = (state = {}, action) => {
@@ -61,6 +64,24 @@ export const getMyFoodReducer = (
     case GET_MY_FOOD_SUCCESS:
       return { loading: false, foods: payload };
     case GET_MY_FOOD_FAIL:
+      return { loading: false, error: payload };
+    default:
+      return state;
+  }
+};
+
+export const getSingleFoodReducer = (
+  state = { food: {}, loading: false },
+  action
+) => {
+  const { type, payload } = action;
+
+  switch (type) {
+    case GET_SINGLE_FOODITEM_REQUEST:
+      return { loading: true };
+    case GET_SINGLE_FOODITEM_SUCCESS:
+      return { loading: false, food: payload };
+    case GET_SINGLE_FOODITEM_FAIL:
       return { loading: false, error: payload };
     default:
       return state;

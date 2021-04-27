@@ -39,7 +39,7 @@ export default makeStyles((theme) => ({
   button: {
     marginTop: "2.5rem",
     background: "#14A18C",
-    borderRadius:'20px',
+    borderRadius: "20px",
     width: "30%",
     "&:hover": {
       background: "#14A18C",
@@ -48,9 +48,9 @@ export default makeStyles((theme) => ({
   buttonGrid: {
     textAlign: "center",
   },
-  day:{
-    margin:'0.75rem 0 0 0',
-    border: '2px solid #14A18C'
+  day: {
+    margin: "0.75rem 0 0 0",
+    border: "2px solid #14A18C",
   },
   available: {
     color: "#14A18C",
@@ -81,8 +81,8 @@ export default makeStyles((theme) => ({
   },
   uploadimgDiv: {
     position: "relative",
-    zIndex:'1',
-    background:'black'
+    zIndex: "1",
+    background: "black",
   },
   uploadimage: {
     position: "absolute",
@@ -100,5 +100,15 @@ export default makeStyles((theme) => ({
       top: "50%",
       transform: "translateY(350%) translateX(60%)",
     },
+  },
+  edit: {
+    marginTop: "2rem",
+    padding: "0.5rem 3rem",
+  },
+  delete: {
+    marginTop: "2rem",
+    padding: "0.5rem 3rem",
+    background: "red",
+    color: "white",
   },
 }));

@@ -16,9 +16,18 @@ import {
   LinearProgress,
 } from "@material-ui/core";
 import useStyles from "./EditFoodPage.styles";
-import {addFoodItem} from "../../redux/food/food.actions"
+import {
+  getSingleFoodItem,
+  deleteFoodItem,
+  updateFood,
+} from "../../redux/food/food.actions";
 
-const EditPage = ({history}) => {
+const EditPage = ({ history, match }) => {
+  const { user } = useSelector((state) => state.userLogin);
+  const { food, loading } = useSelector((state) => state.singleFood);
+
+  const dispatch = useDispatch();
+
   const [formData, setFormData] = useState({
     foodName: "",
     price: "",
@@ -34,23 +43,6 @@ const EditPage = ({history}) => {
 
   const { foodName, price, category, description, tags } = formData;
 
-  const { user } = useSelector((state) => state.userLogin);
-  const {food, loading} = useSelector((state)=>state.foodAdd);
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    if(!user){
-      history.push("/signin");
-    }
-    if(!user?.isChef){
-      history.push("/home")
-    }
-    if(food){
-      history.push("/home");
-    }
-  }, [history, user, food]);
-
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -64,7 +56,7 @@ const EditPage = ({history}) => {
   };
 
   const onChangeAvailableOn = (e) => {
-    if (availableOn.includes(e.currentTarget.value)) {
+    if (availableOn && availableOn.includes(e.currentTarget.value)) {
       removeAvailability(e.currentTarget.value);
     } else {
       addToAvailability(e.currentTarget.value);
@@ -72,36 +64,48 @@ const EditPage = ({history}) => {
   };
 
   const checkAvailability = (value) => {
-    return availableOn.includes(value);
+    return availableOn && availableOn.includes(value);
   };
+
+  useEffect(() => {
+    if (!user) {
+      history.push("/signin");
+    }
+    if (!user?.isChef) {
+      history.push("/home");
+    } else {
+      dispatch(getSingleFoodItem(match.params.id));
+      setFormData(food);
+      setAvailableOn(food?.availableOn);
+    }
+  }, [history, user, match, dispatch]);
 
   const onSubmit = (e) => {
     e.preventDefault();
 
     const formdata = new FormData();
-    formdata.append('foodName', foodName);
-    formdata.append('price', price);
-    formdata.append('category', category);
-    formdata.append('description', description);
-    formdata.append('availableOn', availableOn);
-    formdata.append('image', image);
-    formdata.append('tags', tags);
-  
+    formdata.append("foodName", foodName);
+    formdata.append("price", price);
+    formdata.append("category", category);
+    formdata.append("description", description);
+    formdata.append("availableOn", availableOn);
+    formdata.append("image", image);
+    formdata.append("tags", tags);
 
-    dispatch(addFoodItem(formdata));
+    dispatch(updateFood(formdata, match.params.id));
   };
 
   return (
     <div className={classes.addFoodDiv}>
-    {loading && <LinearProgress/>}
+      {loading && <LinearProgress />}
       <form onSubmit={onSubmit}>
         <Box className={classes.uploadimgDiv}>
           <img
             className={classes.uploadFood}
             alt="img"
             src={
-              image
-                ? URL.createObjectURL(image)
+              food?.image
+                ? food.image
                 : "https://wallpaperaccess.com/full/1285990.jpg"
             }
           />
@@ -313,14 +317,28 @@ const EditPage = ({history}) => {
               </Grid>
             </Grid>
 
-            <Button
-              variant="contained"
-              className={classes.button}
-              color="primary"
-              type="submit"
-            >
-              Submit
-            </Button>
+            <Box display="flex" justifyContent="space-evenly">
+              <Button
+                variant="contained"
+                className={classes.edit}
+                color="primary"
+                type="submit"
+              >
+                Submit
+              </Button>
+              <Button
+                variant="contained"
+                className={classes.delete}
+                color="red"
+                type="submit"
+                onClick={() => {
+                  dispatch(deleteFoodItem(food._id));
+                  history.push("/my-food");
+                }}
+              >
+                Delete
+              </Button>
+            </Box>
           </Card>
         </Container>
       </form>
