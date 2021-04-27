@@ -18,7 +18,10 @@ import Footer from './components/footer/Footer.component';
 import CartPage from './pages/cart-page/CartPage.component';
 import Dashbard from './pages/dashboard/Dashboard.component';
 import EditFoodPage from './pages/edit-food-page/EditFoodPage.component';
+import EditPassword from './pages/edit-password/EditPassword.component';
 import OrderDetailsPage from './pages/order-details-page/OrderDetailsPage.component';
+import MyFoodPage from './pages/my-food-page/MyFoodPage.component';
+import EditProfile from './pages/edit-profile/EditProfile.component';
 import theme from './theme';
 import store from './redux/store';
 import { closeSnackbar } from './redux/alert/alert.actions';
@@ -62,6 +65,9 @@ function App() {
               <Route path="/dashboard" component={Dashbard} />
               <Route path="/order/:id" component={OrderDetailsPage} />
               <Route path="/edit-food/:id" component={EditFoodPage} />
+              <Route path="/my-food" component={MyFoodPage} />
+              <Route path="/edit-profile" component={EditProfile} />
+              <Route path="/edit-password" component={EditPassword} />
             </Switch>
             <Footer />
           </BrowserRouter>

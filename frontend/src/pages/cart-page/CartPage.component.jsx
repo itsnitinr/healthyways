@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 import {
   Container,
   Table,
@@ -13,18 +13,18 @@ import {
   Card,
   Typography,
   LinearProgress,
-} from '@material-ui/core';
-import { GrAdd, GrSubtract } from 'react-icons/gr';
-import { ImCross } from 'react-icons/im';
-import { useSelector, useDispatch } from 'react-redux';
-import useStyles from './CartPage.styles';
+} from "@material-ui/core";
+import { GrAdd, GrSubtract } from "react-icons/gr";
+import { ImCross } from "react-icons/im";
+import { useSelector, useDispatch } from "react-redux";
+import useStyles from "./CartPage.styles";
 import {
   AddToCart,
   removeFromCart,
   clearItemFromCart,
-} from '../../redux/cart/cart.actions';
-import { getCartTotal } from '../../redux/cart/cart.utils';
-import { placeOrder } from '../../redux/order/order.actions';
+} from "../../redux/cart/cart.actions";
+import { getCartTotal } from "../../redux/cart/cart.utils";
+import { placeOrder } from "../../redux/order/order.actions";
 
 const CartPage = ({ history }) => {
   const classes = useStyles();
@@ -39,10 +39,10 @@ const CartPage = ({ history }) => {
 
   useEffect(() => {
     if (!user) {
-      history.push('/signin');
+      history.push("/signin");
     }
     if (success) {
-      history.push('/dashboard');
+      history.push("/dashboard");
     }
   }, [history, user, success, order?._id]);
 
@@ -52,7 +52,7 @@ const CartPage = ({ history }) => {
       (item) => item.chef._id === itemOneChef
     );
     if (sameChefArray.length !== cartItems.length)
-      return alert('Please ensure all food items are from the same chef.');
+      return alert("Please ensure all food items are from the same chef.");
     const orderDetails = {
       chef: itemOneChef,
       foodItems: cartItems.map((item) => ({

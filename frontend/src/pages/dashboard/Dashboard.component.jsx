@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { Grid, Typography } from '@material-ui/core';
-import DashboardCard from '../../components/dashboard-card/DashboardCard.component';
-import UserLanding from '../../components/user-landing/UserLanding.component';
-import ChefLanding from '../../components/chef-landing/ChefLanding.component';
-import useStyles from './Dashboard.styles';
-import { getMyOrders } from '../../redux/order/order.actions';
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import { Grid, Typography, CircularProgress } from "@material-ui/core";
+import DashboardCard from "../../components/dashboard-card/DashboardCard.component";
+import UserLanding from "../../components/user-landing/UserLanding.component";
+import ChefLanding from "../../components/chef-landing/ChefLanding.component";
+import useStyles from "./Dashboard.styles";
+import { getMyOrders } from "../../redux/order/order.actions";
 
 const UserDashboard = ({ history }) => {
   const classes = useStyles();
@@ -17,9 +17,9 @@ const UserDashboard = ({ history }) => {
 
   useEffect(() => {
     if (!user) {
-      history.push('/signin');
+      history.push("/signin");
     } else {
-      dispatch(getMyOrders(user?.isChef ? 'chef' : 'user'));
+      dispatch(getMyOrders(user?.isChef ? "chef" : "user"));
     }
   }, [history, user, dispatch]);
 
@@ -36,16 +36,23 @@ const UserDashboard = ({ history }) => {
             PROFILE
           </Typography>
           <div className={classes.profileLinkDiv}>
-            <Link>
+            <Link to="/edit-profile">
               <Typography className={classes.profileLink}>
                 Edit Profile
               </Typography>
             </Link>
-            <Link>
+            <Link to="/edit-password">
               <Typography className={classes.profileLink}>
                 Update Password
               </Typography>
             </Link>
+            {user?.isChef && (
+              <Link to="/my-food">
+                <Typography className={classes.profileLink}>
+                  My food items
+                </Typography>
+              </Link>
+            )}
           </div>
           <Typography className={classes.profileHeader} variant="h4">
             ORDER HISTORY
@@ -55,7 +62,7 @@ const UserDashboard = ({ history }) => {
           </div>
         </Grid>
         {loading ? (
-          <h1>Loading...</h1>
+          <CircularProgress style={{ margin: "auto" }} />
         ) : (
           <Grid md={9} item className={classes.cardsDiv}>
             <Grid container spacing={3}>

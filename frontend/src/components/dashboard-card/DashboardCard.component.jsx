@@ -49,7 +49,7 @@ const DashboardCard = ({ order }) => {
           </Typography>
           {order.foodItems.map((item) => (
             <Typography color="textSecondary">
-              {item.quantity} x {item.food.foodName} - ₹ {item.price}
+              {item.quantity} x {item.food?.foodName} - ₹ {item.price}
             </Typography>
           ))}
         </Box>

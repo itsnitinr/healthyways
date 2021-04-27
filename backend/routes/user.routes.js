@@ -1,4 +1,4 @@
-const router = require('express').Router();
+const router = require("express").Router();
 
 const {
   registerUser,
@@ -10,26 +10,27 @@ const {
   getUserProfile,
   deleteUserProfile,
   updatePassword,
-} = require('../controllers/user.controllers');
+  updateProfile,
+} = require("../controllers/user.controllers");
 
-const { auth } = require('../middlewares/auth.middleware');
-const upload = require('../middlewares/upload.middleware');
+const { auth } = require("../middlewares/auth.middleware");
+const upload = require("../middlewares/upload.middleware");
 
-router.post('/register', registerUser);
-router.post('/login', loginUser);
-router.put('/verify/:verificationToken', verifyEmail);
-router.put('/forgot-password', forgotPassword);
-router.put('/reset-password/:resetToken', resetPassword);
-router.put('/update-password', auth, updatePassword);
+router.post("/register", registerUser);
+router.post("/login", loginUser);
+router.put("/verify/:verificationToken", verifyEmail);
+router.put("/forgot-password", forgotPassword);
+router.put("/reset-password/:resetToken", resetPassword);
+router.put("/update-password", auth, updatePassword);
 router.post(
-  '/onboarding',
+  "/onboarding",
   auth,
   upload.fields([
-    { name: 'profilePic', maxCount: 1 },
-    { name: 'verificationDocument' },
+    { name: "profilePic", maxCount: 1 },
+    { name: "verificationDocument" },
   ]),
   onboarding
 );
-router.route('/').get(auth, getUserProfile).delete(auth, deleteUserProfile);
+router.route("/").get(auth, getUserProfile).delete(auth, deleteUserProfile);
 
 module.exports = router;
