@@ -1,34 +1,44 @@
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { Container, Grid, LinearProgress, Typography } from "@material-ui/core";
-import FoodCard from "../../components/foodcard/FoodCard.component";
-import { getMyFood } from "../../redux/food/food.actions";
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Box, Grid, LinearProgress, Typography } from '@material-ui/core';
+import FoodCard from '../../components/foodcard/FoodCard.component';
+import { getMyFood } from '../../redux/food/food.actions';
+import useStyles from './MyFoodPage.styles';
+//import { GET_SINGLE_FOODITEM_RESET } from '../../redux/food/food.types';
 
 const MyFoodPage = ({ history }) => {
+  const classes = useStyles();
   const { user } = useSelector((state) => state.userLogin);
-  const { foods } = useSelector((state) => state.myfood);
+  const { foods, loading } = useSelector((state) => state.myfood);
   const dispatch = useDispatch();
   useEffect(() => {
     if (!user) {
-      history.push("/signin");
+      history.push('/signin');
     }
-    dispatch(getMyFood());
+    //dispatch({ type: GET_SINGLE_FOODITEM_RESET });
+    if (!user?.isChef) {
+      history.push('/home');
+    } else {
+      dispatch(getMyFood());
+    }
   }, [history, user, dispatch]);
-
-  console.log(foods);
 
   return (
     <>
-      {/* {loading && <LinearProgress />} */}
-      {console.log(foods)}
-      <Grid container spacing={1}>
-        {foods.map((food) => (
-          <Grid item md={3}>
-            {console.log(food)}
-            <FoodCard food={food} />
-          </Grid>
-        ))}
-      </Grid>
+      {loading && <LinearProgress />}
+      <Typography variant="h4" className={classes.header} color="primary">
+        You food items
+      </Typography>
+      <Box className={classes.container}>
+        <Grid container spacing={4}>
+          {foods &&
+            foods.map((food) => (
+              <Grid item md={3}>
+                <FoodCard food={food} />
+              </Grid>
+            ))}
+        </Grid>
+      </Box>
     </>
   );
 };

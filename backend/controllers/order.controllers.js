@@ -43,19 +43,21 @@ exports.placeOrder = asyncHandler(async (req, res) => {
           select: 'name email',
         },
         {
-          path: 'user',
+          path: 'chef',
           select: 'name email',
         },
       ]);
 
+      console.log(populatedOrder);
+
       sendEmail({
-        to: populatedOrder.user.email,
+        toEmail: populatedOrder.user.email,
         subject: `Your order ${populatedOrder._id} has been placed`,
         text: `Your order has been placed`,
       });
 
       sendEmail({
-        to: populatedOrder.chef.email,
+        toEmail: populatedOrder.chef.email,
         subject: 'New order received',
         text: `You have received a new order ${populatedOrder._id}. Please check your dashboard.`,
       });
@@ -200,7 +202,7 @@ exports.confirmOrder = asyncHandler(async (req, res) => {
 
   try {
     sendEmail({
-      to: updatedOrder.user.email,
+      toEmail: updatedOrder.user.email,
       subject: isConfirmed
         ? 'HealthyWays Meals - Order approved'
         : 'HealthyWays Meals - Order failed',
@@ -246,20 +248,20 @@ exports.payOrder = asyncHandler(async (req, res) => {
       },
       {
         path: 'chef',
-        select: 'name phoneNumber',
+        select: 'name email phoneNumber',
       },
     ]);
 
     try {
       sendEmail({
-        to: populatedOrder.chef.email,
+        toEmail: populatedOrder.chef.email,
         subject: `Payment received for order ${updatedOrder._id}`,
         text: `You have received Rs.${populatedOrder.totalPrice} for your order.`,
       });
 
       sendEmail({
-        to: populatedOrder.user.email,
-        subject: `PCB Cupid - Payment successful for order ${updatedOrder._id}`,
+        toEmail: populatedOrder.user.email,
+        subject: `HealthyWays Meals - Payment successful for order ${updatedOrder._id}`,
         text: `You have paid Rs.${populatedOrder.totalPrice} for your order.`,
       });
     } catch (error) {
@@ -307,7 +309,7 @@ exports.readyOrder = asyncHandler(async (req, res) => {
   // Send email to user
   try {
     sendEmail({
-      to: populatedOrder.user.email,
+      toEmail: populatedOrder.user.email,
       subject: 'HealthyWays - Your order is ready',
       text: 'Your order is ready! Please pick it up.',
     });

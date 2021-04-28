@@ -133,7 +133,7 @@ const OrderDetailsPage = ({ history }) => {
   return (
     <>
       {loading ? (
-        <LinearProgress color="secondary" />
+        <LinearProgress color="primary" />
       ) : (
         <Container style={{ marginTop: '2rem' }}>
           <Grid container>

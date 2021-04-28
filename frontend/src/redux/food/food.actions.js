@@ -1,5 +1,5 @@
-import axios from "axios";
-import { enqueueSnackbar } from "../alert/alert.actions";
+import axios from 'axios';
+import { enqueueSnackbar } from '../alert/alert.actions';
 
 import {
   ADD_FOOD_REQUEST,
@@ -14,25 +14,25 @@ import {
   GET_MY_FOOD_REQUEST,
   GET_MY_FOOD_SUCCESS,
   GET_MY_FOOD_FAIL,
-} from "./food.types";
+} from './food.types';
 
 export const addFoodItem = (formData) => async (dispatch, getState) => {
   const { userLogin } = getState();
   const config = {
     headers: {
-      "Content-Type": "multipart/form-data",
+      'Content-Type': 'multipart/form-data',
       Authorization: `Bearer ${userLogin.token}`,
     },
   };
 
   try {
     dispatch({ type: ADD_FOOD_REQUEST });
-    const { data } = await axios.post("/api/foods", formData, config);
+    const { data } = await axios.post('/api/foods', formData, config);
     dispatch({ type: ADD_FOOD_SUCCESS, payload: data.food });
     dispatch(
       enqueueSnackbar({
-        message: "Added food to your menu successfully",
-        options: { variant: "success" },
+        message: 'Added food to your menu successfully',
+        options: { variant: 'success' },
       })
     );
   } catch (error) {
@@ -47,7 +47,7 @@ export const addFoodItem = (formData) => async (dispatch, getState) => {
       enqueueSnackbar({
         message: errorMsg,
         options: {
-          variant: "error",
+          variant: 'error',
         },
       })
     );
@@ -61,7 +61,7 @@ export const searchFood = (search) => async (dispatch, getState) => {
 
   const config = {
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
   };
 
@@ -89,7 +89,7 @@ export const searchFood = (search) => async (dispatch, getState) => {
       enqueueSnackbar({
         message: errorMsg,
         options: {
-          variant: "error",
+          variant: 'error',
         },
       })
     );
@@ -107,9 +107,9 @@ export const getMyFood = () => async (dispatch, getState) => {
   try {
     dispatch({ type: GET_MY_FOOD_REQUEST });
 
-    const { data } = await axios.get("/api/foods/my", config);
+    const { data } = await axios.get('/api/foods/my', config);
 
-    dispatch({ type: GET_MY_FOOD_SUCCESS, data: data });
+    dispatch({ type: GET_MY_FOOD_SUCCESS, payload: data });
   } catch (error) {
     const errorMsg =
       error.response && error.response.data.message
@@ -122,24 +122,48 @@ export const getMyFood = () => async (dispatch, getState) => {
       enqueueSnackbar({
         message: errorMsg,
         options: {
-          variant: "error",
+          variant: 'error',
         },
       })
     );
   }
 };
 
-export const updateFood = (formData) => async (dispatch, getState) => {
+export const updateFood = (formData, id) => async (dispatch, getState) => {
   const { userLogin } = getState();
   const config = {
     headers: {
-      "Content-Type": "multipart/form-data",
+      'Content-Type': 'multipart/form-data',
       Authorization: `Bearer ${userLogin.token}`,
     },
   };
   try {
     dispatch({ type: UPDATE_FOOD_REQUEST });
+    const { data } = await axios.put(`/api/foods/${id}`, formData, config);
+    dispatch({ type: UPDATE_FOOD_SUCCESS, payload: data });
+    dispatch(
+      enqueueSnackbar({
+        message: 'Updated food item',
+        options: {
+          variant: 'success',
+        },
+      })
+    );
+  } catch (error) {
+    const errorMsg =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
 
-    const { data } = await axios.put("");
-  } catch (error) {}
+    dispatch({ type: UPDATE_FOOD_FAIL, payload: errorMsg });
+
+    dispatch(
+      enqueueSnackbar({
+        message: errorMsg,
+        options: {
+          variant: 'error',
+        },
+      })
+    );
+  }
 };
