@@ -8,6 +8,8 @@ import {
   userOnboardingReducer,
   userUpdateReducer,
   getMyFoodReducer,
+  chefListReducer,
+  chefVerifyReducer,
 } from './user/user.reducers';
 import { foodAddReducer, foodSearchReducer } from './food/food.reducers';
 import { cartReducer } from './cart/cart.reducers';
@@ -29,6 +31,8 @@ export default combineReducers({
   foodAdd: foodAddReducer,
   foodSearch: foodSearchReducer,
   // myfood: getMyFoodReducer,
+  chefList: chefListReducer,
+  chefVerify: chefVerifyReducer,
   cart: cartReducer,
   orderCreate: orderCreateReducer,
   orderListMy: orderListMyReducer,

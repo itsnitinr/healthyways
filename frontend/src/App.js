@@ -22,6 +22,7 @@ import EditPassword from './pages/edit-password/EditPassword.component';
 import OrderDetailsPage from './pages/order-details-page/OrderDetailsPage.component';
 import MyFoodPage from './pages/my-food-page/MyFoodPage.component';
 import EditProfile from './pages/edit-profile/EditProfile.component';
+import AdminChefs from './pages/admin-chefs/AdminChefs.component';
 import theme from './theme';
 import store from './redux/store';
 import { closeSnackbar } from './redux/alert/alert.actions';
@@ -68,6 +69,7 @@ function App() {
               <Route path="/my-food" component={MyFoodPage} />
               <Route path="/edit-profile" component={EditProfile} />
               <Route path="/edit-password" component={EditPassword} />
+              <Route path="/admin/chefs" component={AdminChefs} />
             </Switch>
             <Footer />
           </BrowserRouter>
