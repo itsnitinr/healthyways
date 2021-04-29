@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import useStyles from "./EditProfile.styles";
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import useStyles from './EditProfile.styles';
 import {
   Button,
   Container,
@@ -9,10 +9,10 @@ import {
   TextField,
   Card,
   Box,
-} from "@material-ui/core";
-import { AiOutlineUser } from "react-icons/ai";
-import { BiMap } from "react-icons/bi";
-import { onBoarding } from "../../redux/user/user.actions";
+} from '@material-ui/core';
+import { AiOutlineUser } from 'react-icons/ai';
+import { BiMap } from 'react-icons/bi';
+import { onBoarding } from '../../redux/user/user.actions';
 
 const EditProfile = ({ history }) => {
   const classes = useStyles();
@@ -21,21 +21,19 @@ const EditProfile = ({ history }) => {
   const { loading, success } = useSelector((state) => state.userOnboarding);
 
   const [formData, setFormData] = useState({
-    phoneNumber: user?.phoneNumber || "",
-    pincode: user?.pincode || "",
+    phoneNumber: user?.phoneNumber || '',
+    pincode: user?.pincode || '',
   });
 
-  const [profilePic, setFile] = useState("");
+  const [profilePic, setFile] = useState('');
   const dispatch = useDispatch();
-
-  console.log(user);
 
   useEffect(() => {
     if (!user) {
-      history.push("/signin");
+      history.push('/signin');
     }
     if (success) {
-      history.push("/home");
+      history.push('/home');
     }
   }, [user, history]);
   const { phoneNumber, pincode } = formData;
@@ -48,11 +46,13 @@ const EditProfile = ({ history }) => {
     e.preventDefault();
 
     const formdata = new FormData();
-    formdata.append("pincode", pincode);
+    formdata.append('pincode', pincode);
+    formdata.append('phoneNumber', phoneNumber);
     if (profilePic) {
-      formdata.append("profilePic", profilePic);
+      formdata.append('profilePic', profilePic);
     }
     dispatch(onBoarding(formdata));
+    history.push('/dashboard');
   };
   return (
     <div>

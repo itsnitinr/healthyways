@@ -5,13 +5,15 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import { AiOutlineStar } from "react-icons/ai";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import useStyles from "./FoodCard.styles";
 import { AddToCart } from "../../redux/cart/cart.actions";
 
 const FoodCard = ({ food }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.userLogin);
+
   const { user } = useSelector((state) => state.userLogin);
 
   return (
@@ -51,6 +53,7 @@ const FoodCard = ({ food }) => {
         <Box display="flex" alignItems="center">
           <AiOutlineStar className={classes.star} />
           <Typography color="textSecondary" className={classes.rating}>
+            {" "}
             4.5
           </Typography>
         </Box>

@@ -1,5 +1,5 @@
-import axios from "axios";
-import { enqueueSnackbar } from "../alert/alert.actions";
+import axios from 'axios';
+import { enqueueSnackbar } from '../alert/alert.actions';
 
 import {
   ADD_FOOD_REQUEST,
@@ -14,31 +14,25 @@ import {
   GET_MY_FOOD_REQUEST,
   GET_MY_FOOD_SUCCESS,
   GET_MY_FOOD_FAIL,
-  GET_SINGLE_FOODITEM_REQUEST,
-  GET_SINGLE_FOODITEM_SUCCESS,
-  GET_SINGLE_FOODITEM_FAIL,
-  DELETE_FOOD_ITEM_REQUEST,
-  DELETE_FOOD_ITEM_SUCCESS,
-  DELETE_FOOD_ITEM_FAIL,
-} from "./food.types";
+} from './food.types';
 
 export const addFoodItem = (formData) => async (dispatch, getState) => {
   const { userLogin } = getState();
   const config = {
     headers: {
-      "Content-Type": "multipart/form-data",
+      'Content-Type': 'multipart/form-data',
       Authorization: `Bearer ${userLogin.token}`,
     },
   };
 
   try {
     dispatch({ type: ADD_FOOD_REQUEST });
-    const { data } = await axios.post("/api/foods", formData, config);
+    const { data } = await axios.post('/api/foods', formData, config);
     dispatch({ type: ADD_FOOD_SUCCESS, payload: data.food });
     dispatch(
       enqueueSnackbar({
-        message: "Added food to your menu successfully",
-        options: { variant: "success" },
+        message: 'Added food to your menu successfully',
+        options: { variant: 'success' },
       })
     );
   } catch (error) {
@@ -53,7 +47,7 @@ export const addFoodItem = (formData) => async (dispatch, getState) => {
       enqueueSnackbar({
         message: errorMsg,
         options: {
-          variant: "error",
+          variant: 'error',
         },
       })
     );
@@ -67,7 +61,7 @@ export const searchFood = (search) => async (dispatch, getState) => {
 
   const config = {
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
   };
 
@@ -95,7 +89,7 @@ export const searchFood = (search) => async (dispatch, getState) => {
       enqueueSnackbar({
         message: errorMsg,
         options: {
-          variant: "error",
+          variant: 'error',
         },
       })
     );
@@ -113,7 +107,7 @@ export const getMyFood = () => async (dispatch, getState) => {
   try {
     dispatch({ type: GET_MY_FOOD_REQUEST });
 
-    const { data } = await axios.get("/api/foods/my", config);
+    const { data } = await axios.get('/api/foods/my', config);
 
     dispatch({ type: GET_MY_FOOD_SUCCESS, payload: data });
   } catch (error) {
@@ -128,7 +122,7 @@ export const getMyFood = () => async (dispatch, getState) => {
       enqueueSnackbar({
         message: errorMsg,
         options: {
-          variant: "error",
+          variant: 'error',
         },
       })
     );
@@ -139,7 +133,7 @@ export const updateFood = (formData, id) => async (dispatch, getState) => {
   const { userLogin } = getState();
   const config = {
     headers: {
-      "Content-Type": "multipart/form-data",
+      'Content-Type': 'multipart/form-data',
       Authorization: `Bearer ${userLogin.token}`,
     },
   };
@@ -147,6 +141,7 @@ export const updateFood = (formData, id) => async (dispatch, getState) => {
     dispatch({ type: UPDATE_FOOD_REQUEST });
     const { data } = await axios.put(`/api/foods/${id}`, formData, config);
     dispatch({ type: UPDATE_FOOD_SUCCESS, payload: data });
+<<<<<<< HEAD
 
     dispatch(
       enqueueSnackbar({
@@ -238,6 +233,29 @@ export const deleteFoodItem = (id) => async (dispatch, getState) => {
         message: errorMsg,
         options: {
           variant: "error",
+=======
+    dispatch(
+      enqueueSnackbar({
+        message: 'Updated food item',
+        options: {
+          variant: 'success',
+        },
+      })
+    );
+  } catch (error) {
+    const errorMsg =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+
+    dispatch({ type: UPDATE_FOOD_FAIL, payload: errorMsg });
+
+    dispatch(
+      enqueueSnackbar({
+        message: errorMsg,
+        options: {
+          variant: 'error',
+>>>>>>> 03b1435cd3f81e3b06d3f60b5f9964f7b67bc4d5
         },
       })
     );

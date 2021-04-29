@@ -11,9 +11,6 @@ import {
   GET_MY_FOOD_REQUEST,
   GET_MY_FOOD_SUCCESS,
   GET_MY_FOOD_FAIL,
-  GET_SINGLE_FOODITEM_REQUEST,
-  GET_SINGLE_FOODITEM_SUCCESS,
-  GET_SINGLE_FOODITEM_FAIL,
 } from "./food.types";
 
 export const foodAddReducer = (state = {}, action) => {
@@ -21,13 +18,10 @@ export const foodAddReducer = (state = {}, action) => {
 
   switch (type) {
     case ADD_FOOD_REQUEST:
-    case UPDATE_FOOD_REQUEST:
       return { loading: true };
     case ADD_FOOD_SUCCESS:
-    case UPDATE_FOOD_SUCCESS:
       return { loading: false, food: payload };
     case ADD_FOOD_FAIL:
-    case UPDATE_FOOD_FAIL:
       return { loading: false, error: payload };
     default:
       return state;
@@ -70,18 +64,15 @@ export const getMyFoodReducer = (
   }
 };
 
-export const getSingleFoodReducer = (
-  state = { food: {}, loading: false },
-  action
-) => {
+export const foodEditReducer = (state = {}, action) => {
   const { type, payload } = action;
 
   switch (type) {
-    case GET_SINGLE_FOODITEM_REQUEST:
+    case UPDATE_FOOD_REQUEST:
       return { loading: true };
-    case GET_SINGLE_FOODITEM_SUCCESS:
-      return { loading: false, food: payload };
-    case GET_SINGLE_FOODITEM_FAIL:
+    case UPDATE_FOOD_SUCCESS:
+      return { loading: false, food: payload, success: true };
+    case UPDATE_FOOD_FAIL:
       return { loading: false, error: payload };
     default:
       return state;

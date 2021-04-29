@@ -4,6 +4,7 @@ import { Box, Grid, LinearProgress, Typography } from "@material-ui/core";
 import FoodCard from "../../components/foodcard/FoodCard.component";
 import { getMyFood } from "../../redux/food/food.actions";
 import useStyles from "./MyFoodPage.styles";
+//import { GET_SINGLE_FOODITEM_RESET } from '../../redux/food/food.types';
 
 const MyFoodPage = ({ history }) => {
   const classes = useStyles();
@@ -14,7 +15,7 @@ const MyFoodPage = ({ history }) => {
     if (!user) {
       history.push("/signin");
     }
-
+    //dispatch({ type: GET_SINGLE_FOODITEM_RESET });
     if (!user?.isChef) {
       history.push("/home");
     } else {
@@ -33,7 +34,6 @@ const MyFoodPage = ({ history }) => {
           {foods &&
             foods.map((food) => (
               <Grid item md={3}>
-                {console.log(food)}
                 <FoodCard food={food} />
               </Grid>
             ))}

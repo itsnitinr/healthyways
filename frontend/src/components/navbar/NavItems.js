@@ -73,16 +73,10 @@ export const getNavItems = (props) => ({
       showInNavbar: false,
     },
     {
-      label: 'Users',
+      label: 'Manage Chefs',
       icon: <AiOutlineUsergroupDelete fontSize={28} />,
       type: 'button',
-      href: '/admin/users',
-    },
-    {
-      label: 'Orders',
-      icon: <AiOutlineShoppingCart fontSize={28} />,
-      type: 'button',
-      href: '/admin/orders',
+      href: '/admin/chefs',
     },
     {
       label: 'Logout',
@@ -91,7 +85,6 @@ export const getNavItems = (props) => ({
       buttonType: 'contained',
       class: props.classes.signUpButton,
       onClick: () => props.dispatch(props.logout()),
-      showInNavbar: false,
     },
   ],
 });

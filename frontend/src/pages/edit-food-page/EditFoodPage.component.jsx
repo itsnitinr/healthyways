@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -342,8 +343,14 @@ const EditPage = ({ history, match }) => {
           </Card>
         </Container>
       </form>
+=======
+const EditFoodPage = () => {
+  return (
+    <div>
+      <h1>Edit Food lmao</h1>
+>>>>>>> 03b1435cd3f81e3b06d3f60b5f9964f7b67bc4d5
     </div>
   );
 };
 
-export default EditPage;
+export default EditFoodPage;

@@ -7,15 +7,23 @@ import {
   userVerifyReducer,
   userOnboardingReducer,
   userUpdateReducer,
+  chefListReducer,
+  chefVerifyReducer,
 } from "./user/user.reducers";
 import {
   foodAddReducer,
   foodSearchReducer,
+  foodEditReducer,
   getMyFoodReducer,
-  getSingleFoodReducer,
 } from "./food/food.reducers";
 import { cartReducer } from "./cart/cart.reducers";
-import { orderCreateReducer, orderListMyReducer } from "./order/order.reducers";
+import {
+  orderCreateReducer,
+  orderListMyReducer,
+  orderDetailsReducer,
+  orderPayReducer,
+  orderDispatchReducer,
+} from "./order/order.reducers";
 
 export default combineReducers({
   alert: alertReducer,
@@ -26,9 +34,14 @@ export default combineReducers({
   userUpdate: userUpdateReducer,
   foodAdd: foodAddReducer,
   foodSearch: foodSearchReducer,
+  foodEdit: foodEditReducer,
   myfood: getMyFoodReducer,
-  singleFood: getSingleFoodReducer,
+  chefList: chefListReducer,
+  chefVerify: chefVerifyReducer,
   cart: cartReducer,
   orderCreate: orderCreateReducer,
   orderListMy: orderListMyReducer,
+  orderDetails: orderDetailsReducer,
+  orderPay: orderPayReducer,
+  orderDispatch: orderDispatchReducer,
 });
