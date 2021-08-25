@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import {
   AppBar,
   Toolbar,
@@ -8,13 +8,13 @@ import {
   Typography,
   Button,
   IconButton,
-} from '@material-ui/core';
-import { MdMenu } from 'react-icons/md';
-import SideDrawer from '../sidebar/Sidebar.component';
-import useStyles from './Navbar.styles';
-import { getNavItems } from './NavItems';
+} from "@material-ui/core";
+import { MdMenu } from "react-icons/md";
+import SideDrawer from "../sidebar/Sidebar.component";
+import useStyles from "./Navbar.styles";
+import { getNavItems } from "./NavItems";
 
-import { logout } from '../../redux/user/user.actions';
+import { logout } from "../../redux/user/user.actions";
 
 export default function Navigation() {
   const classes = useStyles();
@@ -28,8 +28,8 @@ export default function Navigation() {
   const toggleDrawer = (open) => (event) => {
     if (
       event &&
-      event.type === 'keydown' &&
-      (event.key === 'Tab' || event.key === 'Shift')
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
     ) {
       return;
     }
@@ -37,9 +37,17 @@ export default function Navigation() {
   };
 
   const navItemsRaw = getNavItems({ user, dispatch, logout, classes });
+  // const navItems = user
+  //   ? user.isAdmin
+  //     ? navItemsRaw.admin
+  //     : navItemsRaw.auth
+  //   : navItemsRaw.noAuth;
+
   const navItems = user
     ? user.isAdmin
       ? navItemsRaw.admin
+      : user?.isChef
+      ? navItemsRaw.chef
       : navItemsRaw.auth
     : navItemsRaw.noAuth;
   const navCommon = navItemsRaw.common;
@@ -50,11 +58,11 @@ export default function Navigation() {
         color="inherit"
         elevation={0}
         position="sticky"
-        style={{ borderBottom: '1px ridge rgba(0,0,0,.05)' }}
+        style={{ borderBottom: "1px ridge rgba(0,0,0,.05)" }}
       >
         <Container maxWidth={false}>
           <Toolbar className={classes.navbarWrapper}>
-            <div style={{ display: 'flex', flex: 1 }}>
+            <div style={{ display: "flex", flex: 1 }}>
               <Link to="/">
                 <Typography variant="h6" color="primary">
                   HealthyWays
@@ -63,9 +71,9 @@ export default function Navigation() {
             </div>
             <div
               style={{
-                display: 'flex',
+                display: "flex",
                 flex: 2,
-                justifyContent: 'flex-end',
+                justifyContent: "flex-end",
               }}
             >
               <NavMenu
@@ -120,7 +128,7 @@ const NavMenu = ({ classes, navItems, navCommon, user, dispatch, logout }) => {
         .map((item, key) => {
           let menuItem;
           switch (item.type) {
-            case 'button':
+            case "button":
               menuItem = (
                 <Button
                   variant={item.buttonType}

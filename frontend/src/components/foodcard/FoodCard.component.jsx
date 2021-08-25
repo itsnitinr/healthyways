@@ -14,8 +14,6 @@ const FoodCard = ({ food }) => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.userLogin);
 
-  const { user } = useSelector((state) => state.userLogin);
-
   return (
     <Card className={classes.card}>
       {console.log(user, food?.chef)}

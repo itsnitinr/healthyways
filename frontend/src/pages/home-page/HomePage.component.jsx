@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import useStyles from './HomePage.styles';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-import Container from '@material-ui/core/Container';
-import FoodCard from '../../components/foodcard/FoodCard.component';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import useStyles from "./HomePage.styles";
+import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
+import Container from "@material-ui/core/Container";
+import FoodCard from "../../components/foodcard/FoodCard.component";
 
 const HomePage = () => {
   const classes = useStyles();
 
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
 
   return (
     <>
@@ -23,7 +23,7 @@ const HomePage = () => {
           <input
             type="text"
             className={classes.searchbox}
-            placeholder="Enter your location"
+            placeholder="Enter food item"
             name="search"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -32,7 +32,7 @@ const HomePage = () => {
             <button className={classes.searchButton}>Search</button>
           </Link>
         </div>
-        <p className={classes.advancedSearch}>Advanced Search</p>
+        {/* <p className={classes.advancedSearch}>Advanced Search</p> */}
       </div>
       {/* <Container>
         <Grid
