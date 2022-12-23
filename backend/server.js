@@ -1,12 +1,13 @@
 // Require dependencies
-const express = require('express');
-const dotenv = require('dotenv');
-const morgan = require('morgan');
-const connectDB = require('./config/db.config');
+const express = require("express");
+const dotenv = require("dotenv");
+const morgan = require("morgan");
+const connectDB = require("./config/db.config");
+const path = require("path");
 const {
   routeNotFound,
   errorHandler,
-} = require('./middlewares/error.middleware');
+} = require("./middlewares/error.middleware");
 
 // Load environment variables
 dotenv.config();
@@ -21,14 +22,19 @@ const app = express();
 app.use(express.json());
 
 // Log requests
-if (process.env.NODE_ENV === 'development') {
-  app.use(morgan('dev'));
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("frontend/build"));
+  app.get("*", (req, res) =>
+    res.sendFile(path.resolve(__dirname, "../frontend", "build", "index.html"))
+  );
+
+  app.use(morgan("dev"));
 }
 
 // Mount routers
-app.use('/api/users', require('./routes/user.routes'));
-app.use('/api/foods', require('./routes/food.routes'));
-app.use('/api/orders', require('./routes/order.routes'));
+app.use("/api/users", require("./routes/user.routes"));
+app.use("/api/foods", require("./routes/food.routes"));
+app.use("/api/orders", require("./routes/order.routes"));
 
 // Error middlewares
 app.use(routeNotFound);
