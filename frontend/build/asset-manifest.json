@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "/static/css/main.3de9ad69.chunk.css",
+    "main.js": "/static/js/main.8179fc41.chunk.js",
+    "main.js.map": "/static/js/main.8179fc41.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.094d12d8.js",
+    "runtime-main.js.map": "/static/js/runtime-main.094d12d8.js.map",
+    "static/js/2.dd6996f4.chunk.js": "/static/js/2.dd6996f4.chunk.js",
+    "static/js/2.dd6996f4.chunk.js.map": "/static/js/2.dd6996f4.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/main.3de9ad69.chunk.css.map": "/static/css/main.3de9ad69.chunk.css.map",
+    "static/js/2.dd6996f4.chunk.js.LICENSE.txt": "/static/js/2.dd6996f4.chunk.js.LICENSE.txt",
+    "static/media/all-check-order.b40cbf07.svg": "/static/media/all-check-order.b40cbf07.svg",
+    "static/media/all-order.789be738.svg": "/static/media/all-order.789be738.svg",
+    "static/media/homely-landing.b77ced00.png": "/static/media/homely-landing.b77ced00.png",
+    "static/media/landing-img.be338e08.png": "/static/media/landing-img.be338e08.png",
+    "static/media/today-orders.6bfd740c.svg": "/static/media/today-orders.6bfd740c.svg",
+    "static/media/untracted-order.65b0a85d.svg": "/static/media/untracted-order.65b0a85d.svg",
+    "static/media/user-dashboard.ff672dd1.png": "/static/media/user-dashboard.ff672dd1.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.094d12d8.js",
+    "static/js/2.dd6996f4.chunk.js",
+    "static/css/main.3de9ad69.chunk.css",
+    "static/js/main.8179fc41.chunk.js"
+  ]
+}
